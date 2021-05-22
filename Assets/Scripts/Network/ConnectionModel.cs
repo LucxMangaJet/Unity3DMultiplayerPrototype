@@ -10,6 +10,10 @@ public class ConnectionModel : MonoBehaviourPunCallbacks
     List<RoomInfo> availableRooms;
 
     public event System.Action<string> ConnectionError;
+    public event System.Action AvailableRoomsChanged;
+    public event System.Action JoinedRoom;
+
+    public bool IsConnected { get => PhotonNetwork.IsConnectedAndReady; }
 
     public void Initiate()
     {
@@ -23,9 +27,9 @@ public class ConnectionModel : MonoBehaviourPunCallbacks
         PhotonNetwork.ConnectUsingSettings();
     }
 
-    public void CreateRandom(string name)
+    public void CreateRandom(string name, RoomOptions options = null)
     {
-        PhotonNetwork.CreateRoom(name);
+        PhotonNetwork.CreateRoom(name, options);
     }
 
     internal void JoinRandomRoom()
@@ -49,10 +53,17 @@ public class ConnectionModel : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinLobby();
     }
 
+    public void TryLeaveLobby()
+    {
+        if (PhotonNetwork.InLobby)
+            PhotonNetwork.LeaveLobby();
+    }
+
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         Debug.Log("Room list updated");
         availableRooms = roomList;
+        AvailableRoomsChanged?.Invoke();
     }
 
     public List<RoomInfo> GetAllRooms()
@@ -79,6 +90,7 @@ public class ConnectionModel : MonoBehaviourPunCallbacks
     {
         var name = PlayerPrefs.GetString("Nickname", "New Player");
         PhotonNetwork.LocalPlayer.NickName = name;
+        JoinedRoom?.Invoke();
     }
 
     public void StartGame()
@@ -93,6 +105,7 @@ public class ConnectionModel : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.Disconnect();
     }
+
 
 
 }

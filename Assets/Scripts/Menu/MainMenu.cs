@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,8 +27,22 @@ public class MainMenu : MonoBehaviour
             throw new UnityEngine.UnassignedReferenceException("connectionModel");
 
         connectionModel.Initiate();
+        connectionModel.JoinedRoom += OnJoinedRoom;
+        connectionModel.ConnectionError += OnConnectionError;
 
         SetupMenus();
+        SwitchTo(MenuID.Main);
+    }
+
+    private void OnConnectionError(string obj)
+    {
+
+        SwitchTo(MenuID.Error);
+    }
+
+    private void OnJoinedRoom()
+    {
+        SwitchTo(MenuID.InRoom);
     }
 
     private void SetupMenus()
@@ -48,7 +63,7 @@ public class MainMenu : MonoBehaviour
         }
     }
 
-    private void SwitchTo(MenuID menuId)
+    public void SwitchTo(MenuID menuId)
     {
         bool found = false;
 
@@ -75,7 +90,8 @@ public class MainMenu : MonoBehaviour
 
     public void Join()
     {
-        SwitchTo(MenuID.Join);
+        if (connectionModel.IsConnected)
+            SwitchTo(MenuID.Join);
     }
 
     public void Create()
