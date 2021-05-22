@@ -44,6 +44,20 @@ public class PlayerController : MonoBehaviourPun
 
     private void FixedUpdate()
     {
+        if (photonView.IsMine)
+        {
+            LocalFixedUpdate();
+        }
+
+        float speedX = Vector3.Dot(model.right, rigidbody.velocity);
+        float speedY = Vector3.Dot(model.forward, rigidbody.velocity);
+
+        animator.SetFloat(ANIM_SpeedX, Mathf.Clamp(speedX, -1, 1));
+        animator.SetFloat(ANIM_SpeedY, Mathf.Clamp(speedY, -1, 1));
+    }
+
+    private void LocalFixedUpdate()
+    {
         Vector2 move = input.Player.Move.ReadValue<Vector2>();
 
         if (move.magnitude < 0.1f)
@@ -68,12 +82,6 @@ public class PlayerController : MonoBehaviourPun
 
             model.forward = camForwardFlatNormalized;
         }
-
-        float speedX = Vector3.Dot(model.right, rigidbody.velocity);
-        float speedY = Vector3.Dot(model.forward, rigidbody.velocity);
-
-        animator.SetFloat(ANIM_SpeedX, Mathf.Clamp(speedX, -1, 1));
-        animator.SetFloat(ANIM_SpeedY, Mathf.Clamp(speedY, -1, 1));
     }
 
     private void OnLook(InputAction.CallbackContext obj)
