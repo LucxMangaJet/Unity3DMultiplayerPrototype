@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviourPun
+public class PlayerController : MonoBehaviourPun, IPunObservable
 {
     static int ANIM_SpeedX = Animator.StringToHash("SpeedX");
     static int ANIM_SpeedY = Animator.StringToHash("SpeedY");
@@ -24,8 +24,13 @@ public class PlayerController : MonoBehaviourPun
     Vector3 lookRotation;
     PlayerInput input;
 
+    //replication
+    Vector3 modelForward;
+
     void Start()
     {
+        modelForward = model.forward;
+
         if (!photonView.IsMine)
         {
             Destroy(camera.gameObject);
@@ -48,6 +53,8 @@ public class PlayerController : MonoBehaviourPun
         {
             LocalFixedUpdate();
         }
+
+        model.forward = modelForward;
 
         float speedX = Vector3.Dot(model.right, rigidbody.velocity);
         float speedY = Vector3.Dot(model.forward, rigidbody.velocity);
@@ -80,7 +87,7 @@ public class PlayerController : MonoBehaviourPun
             vel.y = rigidbody.velocity.y;
             rigidbody.velocity = vel;
 
-            model.forward = camForwardFlatNormalized;
+            modelForward = camForwardFlatNormalized;
         }
     }
 
@@ -95,8 +102,17 @@ public class PlayerController : MonoBehaviourPun
         camera.eulerAngles = lookRotation;
     }
 
-
-
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(modelForward);
+        }
+        else
+        {
+            modelForward = (Vector3)stream.ReceiveNext();
+        }
+    }
 }
 
 public static class PlayerControllerExt
