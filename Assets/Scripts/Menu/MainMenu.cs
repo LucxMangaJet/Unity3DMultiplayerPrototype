@@ -15,6 +15,7 @@ public class MainMenu : MonoBehaviour
 
     [SerializeField] ConnectionModel connectionModel;
     [SerializeField] int playSceneIndex = 1;
+    [SerializeField] TMPro.TextMeshProUGUI errorMsg;
 
     [SerializeField] MenuIdPair[] menusDefinitions;
 
@@ -36,7 +37,7 @@ public class MainMenu : MonoBehaviour
 
     private void OnConnectionError(string obj)
     {
-
+        errorMsg.text = obj;
         SwitchTo(MenuID.Error);
     }
 
@@ -86,6 +87,11 @@ public class MainMenu : MonoBehaviour
             Debug.LogError($"No menu with id {menuId} found. Reverting to Main");
             SwitchTo(MenuID.Main);
         }
+    }
+
+    public void SwitchToMain()
+    {
+        SwitchTo(MenuID.Main);
     }
 
     public void Join()

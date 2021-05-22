@@ -12,8 +12,12 @@ public class ConnectionModel : MonoBehaviourPunCallbacks
     public event System.Action<string> ConnectionError;
     public event System.Action AvailableRoomsChanged;
     public event System.Action JoinedRoom;
+    public event System.Action RoomInfoChanged;
 
     public bool IsConnected { get => PhotonNetwork.IsConnectedAndReady; }
+    public bool IsMasterClient { get => PhotonNetwork.IsMasterClient; }
+
+    public Room CurrentRoom { get => PhotonNetwork.CurrentRoom; }
 
     public void Initiate()
     {
@@ -71,6 +75,11 @@ public class ConnectionModel : MonoBehaviourPunCallbacks
         return availableRooms;
     }
 
+    public void LeaveRoom()
+    {
+        PhotonNetwork.LeaveRoom();
+    }
+
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
         ConnectionError?.Invoke("Create Room Failed: " + message);
@@ -93,6 +102,21 @@ public class ConnectionModel : MonoBehaviourPunCallbacks
         JoinedRoom?.Invoke();
     }
 
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        RoomInfoChanged?.Invoke();
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        RoomInfoChanged?.Invoke();
+    }
+
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+    {
+        RoomInfoChanged?.Invoke();
+    }
+
     public void StartGame()
     {
         if (PhotonNetwork.IsConnectedAndReady && PhotonNetwork.IsMasterClient)
@@ -105,7 +129,6 @@ public class ConnectionModel : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.Disconnect();
     }
-
 
 
 }
