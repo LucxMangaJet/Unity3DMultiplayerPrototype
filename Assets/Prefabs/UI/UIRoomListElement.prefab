@@ -534,7 +534,7 @@ GameObject:
   - component: {fileID: 7136673292069804579}
   - component: {fileID: 4059112951985796007}
   m_Layer: 5
-  m_Name: RoomListElement
+  m_Name: UIRoomListElement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -574,3 +574,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6139f14cff22dea44aec025863f775aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roomName: {fileID: 1213712347841477318}
+  roomAmount: {fileID: 1510125067993783775}
+  joinButton: {fileID: 1510125069711159937}

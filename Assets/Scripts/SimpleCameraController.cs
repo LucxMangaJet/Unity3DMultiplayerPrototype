@@ -3,10 +3,11 @@ using UnityEngine.InputSystem;
 #endif
 
 using UnityEngine;
+using Photon.Pun;
 
 namespace UnityTemplateProjects
 {
-    public class SimpleCameraController : MonoBehaviour
+    public class SimpleCameraController : MonoBehaviourPun
     {
         class CameraState
         {
@@ -83,6 +84,12 @@ namespace UnityTemplateProjects
 
         void Start()
         {
+            if(!photonView.IsMine)
+            {
+                Destroy(this);
+                return;
+            }
+
             var map = new InputActionMap("Simple Camera Controller");
 
             lookAction = map.AddAction("look", binding: "<Mouse>/delta");
