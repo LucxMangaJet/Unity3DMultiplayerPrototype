@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
 {
     static int ANIM_SpeedX = Animator.StringToHash("SpeedX");
     static int ANIM_SpeedY = Animator.StringToHash("SpeedY");
+    static int ANIM_Jump = Animator.StringToHash("Jump");
 
     [SerializeField] Transform camera, model;
     [SerializeField] Rigidbody rigidbody;
@@ -18,7 +19,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     [Header("Settings")]
     [SerializeField] Vector2 lookYMinMax;
     [SerializeField] float lookSensitivity;
-    [SerializeField] float maxSpeed;
+    [SerializeField] float walkSpeed, sprintSpeed;
     [SerializeField] float acceleration;
     [SerializeField] float slowdownPower;
     [SerializeField] float angleToRotate;
@@ -29,6 +30,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     //replication
     Vector3 modelForward;
     Vector3 cameraForward;
+    bool sprint;
 
     void Start()
     {
@@ -61,9 +63,10 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
 
         float speedX = Vector3.Dot(model.right, rigidbody.velocity);
         float speedY = Vector3.Dot(model.forward, rigidbody.velocity);
+        float clampVal = sprint ? 2 : 1;
 
-        animator.SetFloat(ANIM_SpeedX, Mathf.Clamp(speedX, -1, 1));
-        animator.SetFloat(ANIM_SpeedY, Mathf.Clamp(speedY, -1, 1));
+        animator.SetFloat(ANIM_SpeedX, Mathf.Clamp(speedX, -clampVal, clampVal));
+        animator.SetFloat(ANIM_SpeedY, Mathf.Clamp(speedY, -clampVal, clampVal));
     }
 
     private void LateUpdate()
@@ -74,6 +77,8 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     private void LocalFixedUpdate()
     {
         Vector2 move = input.Player.Move.ReadValue<Vector2>();
+        sprint = input.Player.Sprint.ReadValue<float>() > 0;
+
         var camForwardFlatNormalized = camera.forward.WithY0().normalized;
         cameraForward = camera.forward;
 
@@ -99,7 +104,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
             rigidbody.AddForce(force, ForceMode.Impulse);
             var vel = rigidbody.velocity;
             vel.y = 0;
-            vel = Vector3.ClampMagnitude(vel, maxSpeed);
+            vel = Vector3.ClampMagnitude(vel, sprint ? sprintSpeed : walkSpeed);
             vel.y = rigidbody.velocity.y;
             rigidbody.velocity = vel;
 
@@ -124,11 +129,13 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         {
             stream.SendNext(modelForward);
             stream.SendNext(cameraForward);
+            stream.SendNext(sprint);
         }
         else
         {
             modelForward = (Vector3)stream.ReceiveNext();
             cameraForward = (Vector3)stream.ReceiveNext();
+            sprint = (bool)stream.ReceiveNext();
         }
     }
 }
@@ -140,7 +147,4 @@ public static class PlayerControllerExt
         v3.y = 0;
         return v3;
     }
-
-
-
 }

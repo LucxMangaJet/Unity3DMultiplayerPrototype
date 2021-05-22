@@ -75,7 +75,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.5
   far clip plane: 1000
   field of view: 60
   orthographic: 0
@@ -191,7 +191,8 @@ MonoBehaviour:
   headJoint: {fileID: 6410135050080288293}
   lookYMinMax: {x: -70, y: 70}
   lookSensitivity: 25
-  maxSpeed: 5
+  walkSpeed: 4
+  sprintSpeed: 7
   acceleration: 30
   slowdownPower: 0.9
   angleToRotate: 60
