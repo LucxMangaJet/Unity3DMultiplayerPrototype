@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     [SerializeField] Transform camera, model;
     [SerializeField] Rigidbody rigidbody;
     [SerializeField] Animator animator;
+    [SerializeField] Transform headJoint;
 
     [Header("Settings")]
     [SerializeField] Vector2 lookYMinMax;
@@ -20,12 +21,14 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     [SerializeField] float maxSpeed;
     [SerializeField] float acceleration;
     [SerializeField] float slowdownPower;
+    [SerializeField] float angleToRotate;
 
     Vector3 lookRotation;
     PlayerInput input;
 
     //replication
     Vector3 modelForward;
+    Vector3 cameraForward;
 
     void Start()
     {
@@ -63,19 +66,32 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         animator.SetFloat(ANIM_SpeedY, Mathf.Clamp(speedY, -1, 1));
     }
 
+    private void LateUpdate()
+    {
+        headJoint.forward = cameraForward;
+    }
+
     private void LocalFixedUpdate()
     {
         Vector2 move = input.Player.Move.ReadValue<Vector2>();
+        var camForwardFlatNormalized = camera.forward.WithY0().normalized;
+        cameraForward = camera.forward;
 
         if (move.magnitude < 0.1f)
         {
             rigidbody.velocity = rigidbody.velocity *= slowdownPower;
+
+            float angle = Vector3.SignedAngle(camForwardFlatNormalized, modelForward, Vector3.up);
+
+            if (Mathf.Abs(angle) > angleToRotate)
+            {
+                float val = Mathf.Sign(angle) * (angleToRotate - Mathf.Abs(angle));
+                modelForward = Quaternion.Euler(0, val, 0) * modelForward;
+            }
         }
         else
         {
             move.Normalize();
-
-            var camForwardFlatNormalized = camera.forward.WithY0().normalized;
 
             var force = (camForwardFlatNormalized * move.y + camera.right.WithY0().normalized * move.x) * acceleration;
             force.y = rigidbody.velocity.y;
@@ -107,10 +123,12 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         if (stream.IsWriting)
         {
             stream.SendNext(modelForward);
+            stream.SendNext(cameraForward);
         }
         else
         {
             modelForward = (Vector3)stream.ReceiveNext();
+            cameraForward = (Vector3)stream.ReceiveNext();
         }
     }
 }

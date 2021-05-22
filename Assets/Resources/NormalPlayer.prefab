@@ -188,11 +188,13 @@ MonoBehaviour:
   model: {fileID: 1052097570611260582}
   rigidbody: {fileID: 653994291211306300}
   animator: {fileID: 419430177062630941}
+  headJoint: {fileID: 6410135050080288293}
   lookYMinMax: {x: -70, y: 70}
   lookSensitivity: 25
   maxSpeed: 5
   acceleration: 30
   slowdownPower: 0.9
+  angleToRotate: 60
 --- !u!136 &653994291211306297
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -328,5 +330,10 @@ GameObject:
 --- !u!4 &1052097570611260582 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3739031109301108267, guid: e1a014f0cc0a91b4fb387d88a0a7479a, type: 3}
+  m_PrefabInstance: {fileID: 4429987123626709645}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6410135050080288293 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7318109755720068264, guid: e1a014f0cc0a91b4fb387d88a0a7479a, type: 3}
   m_PrefabInstance: {fileID: 4429987123626709645}
   m_PrefabAsset: {fileID: 0}
