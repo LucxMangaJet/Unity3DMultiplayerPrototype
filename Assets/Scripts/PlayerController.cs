@@ -29,13 +29,13 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
 
     Vector3 lookRotation;
     PlayerInput input;
+    float lastJumpTimestamp;
 
     //replicated
     Vector3 modelForward;
     Vector3 cameraForward;
     bool sprint;
     float lastGroundedTimestamp;
-    float lastJumpTimestamp;
 
     void Start()
     {
@@ -72,7 +72,6 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
 
         animator.SetFloat(ANIM_SpeedX, Mathf.Clamp(speedX, -clampVal, clampVal));
         animator.SetFloat(ANIM_SpeedY, Mathf.Clamp(speedY, -clampVal, clampVal));
-        animator.SetBool(ANIM_Jump, IsJumping());
     }
 
     private void LateUpdate()
@@ -103,6 +102,13 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         var vel = rigidbody.velocity;
         vel.y = jumpVelocity;
         rigidbody.velocity = vel;
+        photonView.RPC(nameof(RPC_Jump), RpcTarget.All);
+    }
+
+    [PunRPC]
+    private void RPC_Jump()
+    {
+        animator.SetTrigger(ANIM_Jump);
     }
 
     private void LocalMoveUpdate(Vector2 move, Vector3 camForwardFlatNormalized)
@@ -159,7 +165,6 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
             stream.SendNext(cameraForward);
             stream.SendNext(sprint);
             stream.SendNext(lastGroundedTimestamp);
-            stream.SendNext(lastJumpTimestamp);
         }
         else
         {
@@ -167,7 +172,6 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
             cameraForward = (Vector3)stream.ReceiveNext();
             sprint = (bool)stream.ReceiveNext();
             lastGroundedTimestamp = (float)stream.ReceiveNext();
-            lastJumpTimestamp = (float)stream.ReceiveNext();
         }
     }
 
@@ -176,10 +180,12 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         if (!photonView.IsMine) return;
 
         var contact = collision.GetContact(0);
+        var offsetPos = transform.position.OffsetBy(0, 0.3f, 0);
 
-        float angle = Vector3.Angle(contact.point - transform.position.OffsetBy(0, 1, 0), Vector3.down);
+        float angle = Vector3.Angle(contact.point - offsetPos, Vector3.down);
         if (angle < groundedAngle)
         {
+            Debug.DrawLine(offsetPos, contact.point, Color.red, 0.5f);
             lastGroundedTimestamp = Time.time;
         }
     }

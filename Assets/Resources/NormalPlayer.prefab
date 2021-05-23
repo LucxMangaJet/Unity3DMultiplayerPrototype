@@ -196,7 +196,7 @@ MonoBehaviour:
   acceleration: 30
   slowdownPower: 0.9
   angleToRotate: 60
-  groundedAngle: 60
+  groundedAngle: 45
   jumpCooldown: 0.75
   jumpVelocity: 6
 --- !u!136 &653994291211306297
