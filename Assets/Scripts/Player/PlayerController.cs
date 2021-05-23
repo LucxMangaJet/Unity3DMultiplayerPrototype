@@ -77,6 +77,19 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         animator.SetFloat(ANIM_SpeedY, Mathf.Clamp(speedY, -clampVal, clampVal));
     }
 
+    private void LateUpdate()
+    {
+        if (photonView.IsMine)
+        {
+            camera.eulerAngles = lookRotation;
+
+            Vector3 localPos = new Vector3(0, 0, 0.2f);
+            localPos = Quaternion.Euler(0, lookRotation.y, 0) * localPos;
+            localPos.y = camera.localPosition.y;
+            camera.localPosition = localPos;
+        }
+    }
+
     private void LocalFixedUpdate()
     {
         Vector2 move = input.Player.Move.ReadValue<Vector2>();
@@ -153,7 +166,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         lookRotation.x += -input.y * Time.deltaTime * lookSensitivity;
 
         lookRotation.x = Mathf.Clamp(lookRotation.x, lookYMinMax.x, lookYMinMax.y);
-        camera.eulerAngles = lookRotation;
+        
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
