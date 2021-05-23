@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[DefaultExecutionOrder(-100)]
 public class PlayerController : MonoBehaviourPun, IPunObservable
 {
     static int ANIM_SpeedX = Animator.StringToHash("SpeedX");
@@ -15,6 +16,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     [SerializeField] Rigidbody rigidbody;
     [SerializeField] Animator animator;
     [SerializeField] Transform headJoint;
+    [SerializeField] GameObject localPlayerObject;
 
     [Header("Settings")]
     [SerializeField] Vector2 lookYMinMax;
@@ -44,6 +46,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         if (!photonView.IsMine)
         {
             Destroy(camera.gameObject);
+            Destroy(localPlayerObject);
             return;
         }
 
