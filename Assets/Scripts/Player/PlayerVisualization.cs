@@ -16,7 +16,7 @@ public class PlayerVisualization : MonoBehaviourPun
         int id = -1;
         if (!item.IsNothing())
         {
-            id = ItemHandler.GetItemIdFor(item);
+            id = ItemHandler.GetIdFor(item.Info);
         }
         photonView.RPC(nameof(RPC_SwitchHeldItem), RpcTarget.All, id);
     }
@@ -33,7 +33,7 @@ public class PlayerVisualization : MonoBehaviourPun
         }
         else
         {
-            ItemInfo info = ItemHandler.GetItemInfoFor(id);
+            ItemInfo info = ItemHandler.GetObjectFor(id);
             if (info != null)
             {
                 if (info.HoldObject != null)

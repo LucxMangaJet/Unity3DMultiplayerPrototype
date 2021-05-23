@@ -9,10 +9,10 @@ public interface IUsable
     void Initialize(PlayerActionHandler actionHandler);
 
     void BeginPrimary();
-    void EndPrimary();
+    void EndPrimary(bool cancelled);
 
     void BeginSecondary();
-    void EndSecondary();
+    void EndSecondary(bool cancelled);
 }
 
 public class PlayerActionHandler : MonoBehaviour
@@ -43,6 +43,9 @@ public class PlayerActionHandler : MonoBehaviour
         input.Player.SecondaryAction.canceled += OnSecondaryCancelled;
 
         toolbar.SelectedChanged += OnSelectedChanged;
+
+        //Force selection update
+        OnSelectedChanged(0, 0);
     }
 
     private void OnSelectedChanged(int oldSelected, int newSelected)
@@ -50,8 +53,8 @@ public class PlayerActionHandler : MonoBehaviour
 
         if (current != null)
         {
-            current.EndPrimary();
-            current.EndSecondary();
+            current.EndPrimary(true);
+            current.EndSecondary(true);
         }
 
         if (currentBehaviourObject != null)
@@ -74,7 +77,7 @@ public class PlayerActionHandler : MonoBehaviour
 
     private void OnSecondaryCancelled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        current?.EndSecondary();
+        current?.EndSecondary(false);
     }
 
     private void OnSecondaryStarted(UnityEngine.InputSystem.InputAction.CallbackContext obj)
@@ -84,7 +87,7 @@ public class PlayerActionHandler : MonoBehaviour
 
     private void OnPrimaryCancelled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        current?.EndPrimary();
+        current?.EndPrimary(false);
     }
 
     private void OnPrimaryStarted(UnityEngine.InputSystem.InputAction.CallbackContext obj)

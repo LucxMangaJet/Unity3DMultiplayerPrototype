@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 735278ff601fc8840a2ef6054ea0e3a1, type: 3}
+  m_Name: Catalog_0_Mesh
+  m_EditorClassIdentifier: 
+  DisplayName: Player Model
+  Icon: {fileID: 21300000, guid: 005888ede18a58e4db8d069cfa3007cb, type: 3}
+  SpawnablesPrefab: {fileID: 3094283603968400148, guid: e8008fa73398fcf4b9f32ea7b972612b, type: 3}

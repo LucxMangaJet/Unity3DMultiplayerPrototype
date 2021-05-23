@@ -4,10 +4,12 @@ using UnityEngine;
 using Photon.Pun;
 using System;
 using Photon.Realtime;
+using ExitGames.Client.Photon;
 
 public class GameHandler : MonoBehaviourPunCallbacks
 {
     [SerializeField] GameObject playerCamera;
+
 
     private void Start()
     {
@@ -69,4 +71,10 @@ public class GameHandler : MonoBehaviourPunCallbacks
             Initialize();
         }
     }
+
+    public static void Spawn(GameObject prefab, Vector3 position, Quaternion rotation = default(Quaternion))
+    {
+        PhotonNetwork.Instantiate(System.IO.Path.Combine("Spawnables", prefab.name), position, rotation);
+    }
+
 }

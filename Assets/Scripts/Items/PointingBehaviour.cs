@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PointingBehaviour : MonoBehaviour, IUsable
 {
-    private static int ANIM_MiddleFinger = Animator.StringToHash("MiddleFinger");
-    private static int ANIM_Point = Animator.StringToHash("Point");
+    public static int ANIM_MiddleFinger = Animator.StringToHash("MiddleFinger");
+    public static int ANIM_Point = Animator.StringToHash("Point");
 
     PlayerActionHandler actionHandler;
 
@@ -13,7 +13,7 @@ public class PointingBehaviour : MonoBehaviour, IUsable
     {
         actionHandler.Animator.SetBool(ANIM_Point, true);
     }
-    public void EndPrimary()
+    public void EndPrimary(bool cancelled)
     {
         actionHandler.Animator.SetBool(ANIM_Point, false);
     }
@@ -23,7 +23,7 @@ public class PointingBehaviour : MonoBehaviour, IUsable
         actionHandler.Animator.SetBool(ANIM_MiddleFinger, true);
     }
 
-    public void EndSecondary()
+    public void EndSecondary(bool cancelled)
     {
         actionHandler.Animator.SetBool(ANIM_MiddleFinger, false);
     }
