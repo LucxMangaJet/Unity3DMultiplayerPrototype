@@ -8,5 +8,5 @@ public class ItemInfo : ScriptableObject
     public string ItemName;
     public Sprite Icon;
     public GameObject HoldObject;
-
+    public GameObject BehaviourObject;
 }

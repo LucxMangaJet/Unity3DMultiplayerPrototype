@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     [SerializeField] Animator animator;
     [SerializeField] Transform headJoint;
     [SerializeField] GameObject localPlayerObject;
+    [SerializeField] RigEffector rigEffector;
 
     [Header("Settings")]
     [SerializeField] Vector2 lookYMinMax;
@@ -35,7 +36,6 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
 
     //replicated
     Vector3 modelForward;
-    Vector3 cameraForward;
     bool sprint;
     float lastGroundedTimestamp;
 
@@ -77,11 +77,6 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         animator.SetFloat(ANIM_SpeedY, Mathf.Clamp(speedY, -clampVal, clampVal));
     }
 
-    private void LateUpdate()
-    {
-        headJoint.forward = cameraForward;
-    }
-
     private void LocalFixedUpdate()
     {
         Vector2 move = input.Player.Move.ReadValue<Vector2>();
@@ -89,7 +84,6 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         bool jump = input.Player.Jump.ReadValue<float>() > 0;
 
         var camForwardFlatNormalized = camera.forward.WithY0().normalized;
-        cameraForward = camera.forward;
 
         LocalMoveUpdate(move, camForwardFlatNormalized);
 
@@ -97,6 +91,8 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         {
             Jump();
         }
+
+        rigEffector.LookInDirection(camera.forward);
     }
 
     private void Jump()
@@ -165,14 +161,12 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         if (stream.IsWriting)
         {
             stream.SendNext(modelForward);
-            stream.SendNext(cameraForward);
             stream.SendNext(sprint);
             stream.SendNext(lastGroundedTimestamp);
         }
         else
         {
             modelForward = (Vector3)stream.ReceiveNext();
-            cameraForward = (Vector3)stream.ReceiveNext();
             sprint = (bool)stream.ReceiveNext();
             lastGroundedTimestamp = (float)stream.ReceiveNext();
         }

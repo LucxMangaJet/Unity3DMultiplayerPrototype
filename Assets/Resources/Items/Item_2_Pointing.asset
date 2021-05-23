@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d8c43ab5b0a757944b5dca0f8f893c34, type: 3}
-  m_Name: Item_1_Hammer
+  m_Name: Item_2_Pointing
   m_EditorClassIdentifier: 
-  ItemName: Hammer
-  Icon: {fileID: 21300000, guid: 3fd96eebfc40fe04f9aa03ed3e09900e, type: 3}
-  HoldObject: {fileID: 1001059288569028783, guid: 8cd2919cb9fa8d64fbfa57d56ab0b92f, type: 3}
-  BehaviourObject: {fileID: 0}
+  ItemName: Pointing
+  Icon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  HoldObject: {fileID: 0}
+  BehaviourObject: {fileID: 5314827629617988108, guid: e8c8bc4b45260c840a04debedeb71aad, type: 3}

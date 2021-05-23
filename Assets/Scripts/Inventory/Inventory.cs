@@ -74,6 +74,11 @@ public struct ItemAmountPair
         return Info == null || Amount <= 0;
     }
 
+    public bool IsValid()
+    {
+        return Info != null && Amount > 0;
+    }
+
     public override string ToString()
     {
         return IsNothing() ? "Empty" : Amount > 1 ? $"{Amount} {Info.ItemName}" : Info.ItemName;

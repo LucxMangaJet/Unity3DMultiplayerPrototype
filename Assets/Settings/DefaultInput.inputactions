@@ -22,14 +22,6 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Fire",
-                    "type": "Button",
-                    "id": "29df9f92-5ee0-4f26-afe1-adf23c3ba2e8",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
                     "name": "Sprint",
                     "type": "Button",
                     "id": "2852e5ad-9ffa-4804-9531-8a4fb71de8b5",
@@ -41,6 +33,22 @@
                     "name": "Jump",
                     "type": "Button",
                     "id": "5a1407e2-bbe9-4163-9c5d-d15ed0df660d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "PrimaryAction",
+                    "type": "Button",
+                    "id": "e55ef881-3127-41e9-837e-8e377b1bce5c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "SecondaryAction",
+                    "type": "Button",
+                    "id": "b2a34312-69c5-4dde-b27e-e373a0b42c72",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -214,50 +222,6 @@
                 },
                 {
                     "name": "",
-                    "id": "143bb1cd-cc10-4eca-a2f0-a3664166fe91",
-                    "path": "<Gamepad>/rightTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "Fire",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "05f6913d-c316-48b2-a6bb-e225f14c7960",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "Fire",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "886e731e-7071-4ae4-95c0-e61739dad6fd",
-                    "path": "<Touchscreen>/primaryTouch/tap",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Touch",
-                    "action": "Fire",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "ee3d0cd2-254e-47a7-a8cb-bc94d9658c54",
-                    "path": "<Joystick>/trigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Joystick",
-                    "action": "Fire",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "1fecf1c1-5ae5-4830-8190-1ed686345007",
                     "path": "<Keyboard>/shift",
                     "interactions": "",
@@ -286,6 +250,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0dd121f9-78ec-47a9-a945-eee47145b74b",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "PrimaryAction",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8fa218d2-c583-40ec-b555-8ab56d64b742",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "SecondaryAction",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
