@@ -4,30 +4,28 @@ using UnityEngine;
 
 public class PointingBehaviour : MonoBehaviour, IUsable
 {
-    PlayerActionHandler actionHandler;
+    private static int ANIM_MiddleFinger = Animator.StringToHash("MiddleFinger");
+    private static int ANIM_Point = Animator.StringToHash("Point");
 
-    bool inSecondary;
+    PlayerActionHandler actionHandler;
 
     public void BeginPrimary()
     {
+        actionHandler.Animator.SetBool(ANIM_Point, true);
     }
     public void EndPrimary()
     {
+        actionHandler.Animator.SetBool(ANIM_Point, false);
     }
 
     public void BeginSecondary()
     {
-        actionHandler.RigEffector.EnableRightArmOverride();
+        actionHandler.Animator.SetBool(ANIM_MiddleFinger, true);
     }
 
     public void EndSecondary()
     {
-        actionHandler.RigEffector.DisableRightArmOverride();
-    }
-
-    private void Update()
-    {
-        actionHandler.RigEffector.PointRightArmInDirection(actionHandler.CameraTransform.forward);
+        actionHandler.Animator.SetBool(ANIM_MiddleFinger, false);
     }
 
     public void Initialize(PlayerActionHandler actionHandler)
