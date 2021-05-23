@@ -23,14 +23,19 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     [SerializeField] float acceleration;
     [SerializeField] float slowdownPower;
     [SerializeField] float angleToRotate;
+    [SerializeField] float groundedAngle;
+    [SerializeField] float jumpCooldown;
+    [SerializeField] float jumpVelocity;
 
     Vector3 lookRotation;
     PlayerInput input;
 
-    //replication
+    //replicated
     Vector3 modelForward;
     Vector3 cameraForward;
     bool sprint;
+    float lastGroundedTimestamp;
+    float lastJumpTimestamp;
 
     void Start()
     {
@@ -67,6 +72,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
 
         animator.SetFloat(ANIM_SpeedX, Mathf.Clamp(speedX, -clampVal, clampVal));
         animator.SetFloat(ANIM_SpeedY, Mathf.Clamp(speedY, -clampVal, clampVal));
+        animator.SetBool(ANIM_Jump, IsJumping());
     }
 
     private void LateUpdate()
@@ -78,13 +84,35 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     {
         Vector2 move = input.Player.Move.ReadValue<Vector2>();
         sprint = input.Player.Sprint.ReadValue<float>() > 0;
+        bool jump = input.Player.Jump.ReadValue<float>() > 0;
 
         var camForwardFlatNormalized = camera.forward.WithY0().normalized;
         cameraForward = camera.forward;
 
+        LocalMoveUpdate(move, camForwardFlatNormalized);
+
+        if (jump && CanJump())
+        {
+            Jump();
+        }
+    }
+
+    private void Jump()
+    {
+        lastJumpTimestamp = Time.time;
+        var vel = rigidbody.velocity;
+        vel.y = jumpVelocity;
+        rigidbody.velocity = vel;
+    }
+
+    private void LocalMoveUpdate(Vector2 move, Vector3 camForwardFlatNormalized)
+    {
         if (move.magnitude < 0.1f)
         {
-            rigidbody.velocity = rigidbody.velocity *= slowdownPower;
+            var vel = rigidbody.velocity;
+            vel *= slowdownPower;
+            vel.y = rigidbody.velocity.y;
+            rigidbody.velocity = vel;
 
             float angle = Vector3.SignedAngle(camForwardFlatNormalized, modelForward, Vector3.up);
 
@@ -130,14 +158,47 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
             stream.SendNext(modelForward);
             stream.SendNext(cameraForward);
             stream.SendNext(sprint);
+            stream.SendNext(lastGroundedTimestamp);
+            stream.SendNext(lastJumpTimestamp);
         }
         else
         {
             modelForward = (Vector3)stream.ReceiveNext();
             cameraForward = (Vector3)stream.ReceiveNext();
             sprint = (bool)stream.ReceiveNext();
+            lastGroundedTimestamp = (float)stream.ReceiveNext();
+            lastJumpTimestamp = (float)stream.ReceiveNext();
         }
     }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if (!photonView.IsMine) return;
+
+        var contact = collision.GetContact(0);
+
+        float angle = Vector3.Angle(contact.point - transform.position.OffsetBy(0, 1, 0), Vector3.down);
+        if (angle < groundedAngle)
+        {
+            lastGroundedTimestamp = Time.time;
+        }
+    }
+
+    private bool IsGrounded()
+    {
+        return Time.time - lastGroundedTimestamp < 0.1f;
+    }
+
+    private bool IsJumping()
+    {
+        return Time.time - lastJumpTimestamp < jumpCooldown;
+    }
+
+    private bool CanJump()
+    {
+        return IsGrounded() && !IsJumping();
+    }
+
 }
 
 public static class PlayerControllerExt
@@ -145,6 +206,12 @@ public static class PlayerControllerExt
     public static Vector3 WithY0(this Vector3 v3)
     {
         v3.y = 0;
+        return v3;
+    }
+
+    public static Vector3 OffsetBy(this Vector3 v3, float x, float y, float z)
+    {
+        v3 += new Vector3(x, y, z);
         return v3;
     }
 }
