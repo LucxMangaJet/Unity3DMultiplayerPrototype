@@ -410,7 +410,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   visualization: {fileID: 4295334331751803457}
-  size: 8
+  size: 10
   initialContent:
   - Info: {fileID: 11400000, guid: f9a5e63b4bf4acb4bb17838db7c74ca2, type: 2}
     Amount: 1

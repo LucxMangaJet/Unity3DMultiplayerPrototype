@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerHUD : MonoBehaviour
 {
@@ -26,6 +27,21 @@ public class PlayerHUD : MonoBehaviour
         input.Enable();
 
         input.UI.ScrollWheel.performed += OnScrollWheel;
+
+    }
+
+    private void Update()
+    {
+        //Check toolbar keyboard shortcuts
+        int baseKey = (int)Key.Digit1;
+        for (int i = 0; i < 10; i++)
+        {
+            Key key = (Key)baseKey + i;
+            if (Keyboard.current[key].wasPressedThisFrame)
+            {
+                toolbar.Select(i);
+            }
+        }
     }
 
     private void OnScrollWheel(UnityEngine.InputSystem.InputAction.CallbackContext obj)
@@ -36,7 +52,7 @@ public class PlayerHUD : MonoBehaviour
         {
             if (Time.time - lastScrollTimestamp > scrollPauseTime)
             {
-                int dir = (int)Mathf.Sign(val);
+                int dir = -1 * (int)Mathf.Sign(val);
                 toolbar.ScrollBy(dir);
                 lastScrollTimestamp = Time.time;
             }

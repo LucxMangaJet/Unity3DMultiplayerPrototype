@@ -27,7 +27,7 @@ public class Toolbar : MonoBehaviour, IInventoryHolder
         Select(0);
     }
 
-    private void Select(int index)
+    public void Select(int index)
     {
         if (index < 0 || index >= size) return;
 
