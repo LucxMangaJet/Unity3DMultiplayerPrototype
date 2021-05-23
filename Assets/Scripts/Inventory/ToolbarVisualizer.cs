@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class ToolbarVisualizer : InventoryVisualizer
 {
+    [SerializeField] TMPro.TextMeshProUGUI displayText;
+
     public void SetToolbar(Toolbar t)
     {
         holder = t;
@@ -32,9 +34,12 @@ public class ToolbarVisualizer : InventoryVisualizer
         }
     }
 
+
     private void OnSelectedChanged(int oldSelected, int newSelected)
     {
         visualSlots[oldSelected].Dehighlight();
         visualSlots[newSelected].Highlight();
+
+        displayText.text = inventory[newSelected].ToString();
     }
 }

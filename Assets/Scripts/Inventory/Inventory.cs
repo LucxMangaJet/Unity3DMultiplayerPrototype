@@ -76,7 +76,7 @@ public struct ItemAmountPair
 
     public override string ToString()
     {
-        return IsNothing() ? "Empty" : $"{Amount} {Info.name}";
+        return IsNothing() ? "Empty" : Amount > 1 ? $"{Amount} {Info.ItemName}" : Info.ItemName;
     }
 }
 

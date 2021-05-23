@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemName: TestItem
   Icon: {fileID: 21300000, guid: 936345f7fc3934efa8119a8700d904c7, type: 3}
-  HoldObject: {fileID: 0}
+  HoldObject: {fileID: 1001059288569028783, guid: 8cd2919cb9fa8d64fbfa57d56ab0b92f, type: 3}

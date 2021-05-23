@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Toolbar : MonoBehaviour, IInventoryHolder
 {
+    [SerializeField] PlayerVisualization visualization;
     [SerializeField] int size;
     [SerializeField] ItemAmountPair[] initialContent;
 
@@ -23,6 +24,7 @@ public class Toolbar : MonoBehaviour, IInventoryHolder
         {
             inventory[i] = initialContent[i];
         }
+        Select(0);
     }
 
     private void Select(int index)
@@ -32,6 +34,9 @@ public class Toolbar : MonoBehaviour, IInventoryHolder
         var old = selected;
         selected = index;
         SelectedChanged?.Invoke(old, index);
+
+        var item = inventory[selected];
+        visualization.SwitchHeldItemTo(item);
     }
 
     public void ScrollBy(int amount)
