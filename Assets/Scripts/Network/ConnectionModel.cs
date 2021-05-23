@@ -28,6 +28,7 @@ public class ConnectionModel : MonoBehaviourPunCallbacks
 
     public void ConnectToServer()
     {
+        PhotonNetwork.SendRate = 50;
         PhotonNetwork.ConnectUsingSettings();
     }
 
