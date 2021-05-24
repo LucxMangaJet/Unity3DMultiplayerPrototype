@@ -32,6 +32,8 @@ public class PlayerActionHandler : MonoBehaviour
 
     public Transform CameraTransform { get => camera.transform; }
 
+    public PlayerInput Input { get => input; }
+
     private void Start()
     {
         input = new PlayerInput();

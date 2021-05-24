@@ -795,6 +795,93 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Building"",
+            ""id"": ""f2c90ffb-1f82-46f1-abd3-f77a34fd5545"",
+            ""actions"": [
+                {
+                    ""name"": ""Rotate"",
+                    ""type"": ""Value"",
+                    ""id"": ""b17b16d5-9e52-4e13-9092-ad973806b012"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""SnapToFloor"",
+                    ""type"": ""Button"",
+                    ""id"": ""a687fc4d-62c3-4be8-8163-6202ed585d53"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""SnapWithVolume"",
+                    ""type"": ""Button"",
+                    ""id"": ""6c01e164-0558-493a-8fd9-ed162cd9698b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""f9fb571f-45aa-4e93-be8f-82c42024ec67"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""3903d15e-f031-4610-b808-7c0bfa7ef9b3"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""610b5078-34db-4adf-b216-a78c68e029d9"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""662916a7-9a41-457a-abd8-f5df58b2897d"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""SnapToFloor"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c9589d4b-2e89-40ff-b6cb-613ad0cccee3"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""SnapWithVolume"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -880,6 +967,11 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         m_UI_RightClick = m_UI.FindAction("RightClick", throwIfNotFound: true);
         m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
+        // Building
+        m_Building = asset.FindActionMap("Building", throwIfNotFound: true);
+        m_Building_Rotate = m_Building.FindAction("Rotate", throwIfNotFound: true);
+        m_Building_SnapToFloor = m_Building.FindAction("SnapToFloor", throwIfNotFound: true);
+        m_Building_SnapWithVolume = m_Building.FindAction("SnapWithVolume", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1103,6 +1195,55 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         }
     }
     public UIActions @UI => new UIActions(this);
+
+    // Building
+    private readonly InputActionMap m_Building;
+    private IBuildingActions m_BuildingActionsCallbackInterface;
+    private readonly InputAction m_Building_Rotate;
+    private readonly InputAction m_Building_SnapToFloor;
+    private readonly InputAction m_Building_SnapWithVolume;
+    public struct BuildingActions
+    {
+        private @PlayerInput m_Wrapper;
+        public BuildingActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Rotate => m_Wrapper.m_Building_Rotate;
+        public InputAction @SnapToFloor => m_Wrapper.m_Building_SnapToFloor;
+        public InputAction @SnapWithVolume => m_Wrapper.m_Building_SnapWithVolume;
+        public InputActionMap Get() { return m_Wrapper.m_Building; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(BuildingActions set) { return set.Get(); }
+        public void SetCallbacks(IBuildingActions instance)
+        {
+            if (m_Wrapper.m_BuildingActionsCallbackInterface != null)
+            {
+                @Rotate.started -= m_Wrapper.m_BuildingActionsCallbackInterface.OnRotate;
+                @Rotate.performed -= m_Wrapper.m_BuildingActionsCallbackInterface.OnRotate;
+                @Rotate.canceled -= m_Wrapper.m_BuildingActionsCallbackInterface.OnRotate;
+                @SnapToFloor.started -= m_Wrapper.m_BuildingActionsCallbackInterface.OnSnapToFloor;
+                @SnapToFloor.performed -= m_Wrapper.m_BuildingActionsCallbackInterface.OnSnapToFloor;
+                @SnapToFloor.canceled -= m_Wrapper.m_BuildingActionsCallbackInterface.OnSnapToFloor;
+                @SnapWithVolume.started -= m_Wrapper.m_BuildingActionsCallbackInterface.OnSnapWithVolume;
+                @SnapWithVolume.performed -= m_Wrapper.m_BuildingActionsCallbackInterface.OnSnapWithVolume;
+                @SnapWithVolume.canceled -= m_Wrapper.m_BuildingActionsCallbackInterface.OnSnapWithVolume;
+            }
+            m_Wrapper.m_BuildingActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Rotate.started += instance.OnRotate;
+                @Rotate.performed += instance.OnRotate;
+                @Rotate.canceled += instance.OnRotate;
+                @SnapToFloor.started += instance.OnSnapToFloor;
+                @SnapToFloor.performed += instance.OnSnapToFloor;
+                @SnapToFloor.canceled += instance.OnSnapToFloor;
+                @SnapWithVolume.started += instance.OnSnapWithVolume;
+                @SnapWithVolume.performed += instance.OnSnapWithVolume;
+                @SnapWithVolume.canceled += instance.OnSnapWithVolume;
+            }
+        }
+    }
+    public BuildingActions @Building => new BuildingActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     public InputControlScheme KeyboardMouseScheme
     {
@@ -1169,5 +1310,11 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         void OnRightClick(InputAction.CallbackContext context);
         void OnTrackedDevicePosition(InputAction.CallbackContext context);
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
+    }
+    public interface IBuildingActions
+    {
+        void OnRotate(InputAction.CallbackContext context);
+        void OnSnapToFloor(InputAction.CallbackContext context);
+        void OnSnapWithVolume(InputAction.CallbackContext context);
     }
 }

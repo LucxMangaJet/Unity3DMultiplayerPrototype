@@ -1,19 +1,24 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class HammerBehaviour : MonoBehaviour, IUsable
 {
 
-    [SerializeField] PlacingPreview preview;
     [SerializeField] float maxBuildDistance;
+    [SerializeField] float rotationSpeed;
     [SerializeField] GameObject catalog;
     [SerializeField] Transform catalogParent;
     [SerializeField] CatalogVisualObject catalogElementPrefab;
     [SerializeField] TMPro.TextMeshProUGUI selectedDisplay;
+    [SerializeField] Material previewMaterial;
 
     CatalogObjectInfo currentSelected;
     PlayerActionHandler actionHandler;
+    private float yaw = 0;
+    PreviewMaker preview;
 
     public void BeginPrimary()
     {
@@ -26,12 +31,11 @@ public class HammerBehaviour : MonoBehaviour, IUsable
 
         if (!cancelled && currentSelected != null)
         {
-            RaycastHit hit;
-            Ray ray = new Ray(actionHandler.CameraTransform.position, actionHandler.CameraTransform.forward);
-            Debug.DrawRay(ray.origin, ray.direction * maxBuildDistance, Color.yellow, 0.1f);
-            if (Physics.Raycast(ray, out hit, maxBuildDistance))
+            var target = CalculateSpawnPosition();
+
+            if (target.HasValue)
             {
-                GameHandler.Spawn(currentSelected.SpawnablesPrefab, hit.point);
+                GameHandler.Spawn(currentSelected.SpawnablesPrefab, target.Value, Quaternion.Euler(0, yaw, 0));
             }
         }
     }
@@ -55,19 +59,68 @@ public class HammerBehaviour : MonoBehaviour, IUsable
 
     private void Update()
     {
-        RaycastHit hit;
-        Ray ray = new Ray(actionHandler.CameraTransform.position, actionHandler.CameraTransform.forward);
-        if (Physics.Raycast(ray, out hit, maxBuildDistance))
+        if (!preview) return;
+
+        var target = CalculateSpawnPosition();
+
+        if (target.HasValue)
         {
+            preview.transform.position = target.Value;
             preview.gameObject.SetActive(true);
-            preview.transform.position = hit.point;
+            preview.transform.rotation = Quaternion.Euler(0, yaw, 0);
         }
         else
         {
             preview.gameObject.SetActive(false);
         }
+
+        float rotInput = actionHandler.Input.Building.Rotate.ReadValue<float>();
+        yaw += rotInput * Time.deltaTime * rotationSpeed;
     }
 
+    public Vector3? CalculateSpawnPosition()
+    {
+        RaycastHit hit;
+        Ray ray = new Ray(actionHandler.CameraTransform.position, actionHandler.CameraTransform.forward);
+        bool snapWithVolume = actionHandler.Input.Building.SnapWithVolume.ReadValue<float>() > 0;
+
+        Vector3 offset = Vector3.zero;
+
+
+
+        if (snapWithVolume)
+        {
+            var point = preview.ClosetsPoint(preview.transform.position + ray.direction * maxBuildDistance);
+
+            if (point.HasValue)
+                offset = preview.transform.position - point.Value;
+        }
+
+        if (Physics.Raycast(ray, out hit, maxBuildDistance))
+        {
+            bool snapToFloor = actionHandler.Input.Building.SnapToFloor.ReadValue<float>() > 0;
+
+            Vector3 hitPoint = hit.point;
+            if (snapToFloor)
+            {
+                ray = new Ray(hit.point, Vector3.down);
+                if (Physics.Raycast(ray, out hit, maxBuildDistance))
+                {
+                    return hit.point + offset;
+                }
+                else
+                {
+                    return hitPoint + offset;
+                }
+            }
+            else
+            {
+                return hitPoint + offset;
+            }
+        }
+
+        return null;
+    }
 
     public void Initialize(PlayerActionHandler actionHandler)
     {
@@ -84,6 +137,7 @@ public class HammerBehaviour : MonoBehaviour, IUsable
         }
 
         catalog.SetActive(false);
+
     }
 
     public void SwitchTo(CatalogObjectInfo info)
@@ -91,19 +145,19 @@ public class HammerBehaviour : MonoBehaviour, IUsable
         if (info == null)
         {
             currentSelected = null;
-            preview.SetMeshTo(null);
+
+            if (preview != null)
+                Destroy(preview);
+            preview = null;
             selectedDisplay.text = "";
             return;
         }
 
         currentSelected = info;
         selectedDisplay.text = info.DisplayName;
-        var filter = currentSelected.SpawnablesPrefab.GetComponent<MeshFilter>();
-        if (filter)
-        {
-            var mesh = filter.sharedMesh;
-            preview.SetMeshTo(mesh);
-        }
-        preview.HighlightGreen();
+
+        var previewGO = Instantiate(info.SpawnablesPrefab);
+        preview = previewGO.AddComponent<PreviewMaker>();
+        preview.Initiate(previewMaterial);
     }
 }
