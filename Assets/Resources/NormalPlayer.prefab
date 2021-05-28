@@ -494,6 +494,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camera: {fileID: 653994290544220487}
   range: 5
+  playerController: {fileID: 653994291211306302}
 --- !u!1001 &4429987123626709645
 PrefabInstance:
   m_ObjectHideFlags: 0

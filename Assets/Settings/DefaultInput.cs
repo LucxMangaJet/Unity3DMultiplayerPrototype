@@ -901,6 +901,175 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Chopper"",
+            ""id"": ""da6271bd-b5a2-4722-8cf2-9b1ddfff6500"",
+            ""actions"": [
+                {
+                    ""name"": ""Exit"",
+                    ""type"": ""Button"",
+                    ""id"": ""780c1475-78f0-4fc6-9e5d-aba3c1780228"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Movement"",
+                    ""type"": ""Value"",
+                    ""id"": ""371e67d2-2332-491f-a154-4dd7a8ddbfbc"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""MoveUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""f5b11a77-579b-4153-87c0-c0c0d5fdf4fa"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""MoveDown"",
+                    ""type"": ""Button"",
+                    ""id"": ""5bd855a4-16f6-4d5c-8539-30e8b8e60ff0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Look"",
+                    ""type"": ""Value"",
+                    ""id"": ""a4a25fda-a298-49d3-b848-fbfa0154438b"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""4a9f0416-e694-4426-ad4c-d701aa826af6"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Exit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""38d40a07-fb7f-4a88-876c-d2b62d18991c"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""e34fab51-e183-450c-b369-44988b23c52f"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""449bc6a6-25da-4933-a343-ef2c67357277"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""53a616ad-73ab-4f34-897c-42254595efdd"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""79a27d72-9656-4be0-8524-14fcc7fe868e"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7e6f49d5-eb24-4cba-9c9c-5a1d1f1db42f"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e43101d1-bcef-4c90-99fe-77e654ec5fa4"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4738715f-11a8-49d7-acae-1439819282ea"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6dbfca62-1aa9-4a42-af43-c74c322d0367"",
+                    ""path"": ""<Pointer>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse;Touch"",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9ac61d87-5f57-4b95-aaa6-8ccfd99b1d26"",
+                    ""path"": ""<Joystick>/{Hatswitch}"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Joystick"",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -992,6 +1161,13 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         m_Building_Rotate = m_Building.FindAction("Rotate", throwIfNotFound: true);
         m_Building_SnapToFloor = m_Building.FindAction("SnapToFloor", throwIfNotFound: true);
         m_Building_SnapWithVolume = m_Building.FindAction("SnapWithVolume", throwIfNotFound: true);
+        // Chopper
+        m_Chopper = asset.FindActionMap("Chopper", throwIfNotFound: true);
+        m_Chopper_Exit = m_Chopper.FindAction("Exit", throwIfNotFound: true);
+        m_Chopper_Movement = m_Chopper.FindAction("Movement", throwIfNotFound: true);
+        m_Chopper_MoveUp = m_Chopper.FindAction("MoveUp", throwIfNotFound: true);
+        m_Chopper_MoveDown = m_Chopper.FindAction("MoveDown", throwIfNotFound: true);
+        m_Chopper_Look = m_Chopper.FindAction("Look", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1272,6 +1448,71 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         }
     }
     public BuildingActions @Building => new BuildingActions(this);
+
+    // Chopper
+    private readonly InputActionMap m_Chopper;
+    private IChopperActions m_ChopperActionsCallbackInterface;
+    private readonly InputAction m_Chopper_Exit;
+    private readonly InputAction m_Chopper_Movement;
+    private readonly InputAction m_Chopper_MoveUp;
+    private readonly InputAction m_Chopper_MoveDown;
+    private readonly InputAction m_Chopper_Look;
+    public struct ChopperActions
+    {
+        private @PlayerInput m_Wrapper;
+        public ChopperActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Exit => m_Wrapper.m_Chopper_Exit;
+        public InputAction @Movement => m_Wrapper.m_Chopper_Movement;
+        public InputAction @MoveUp => m_Wrapper.m_Chopper_MoveUp;
+        public InputAction @MoveDown => m_Wrapper.m_Chopper_MoveDown;
+        public InputAction @Look => m_Wrapper.m_Chopper_Look;
+        public InputActionMap Get() { return m_Wrapper.m_Chopper; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(ChopperActions set) { return set.Get(); }
+        public void SetCallbacks(IChopperActions instance)
+        {
+            if (m_Wrapper.m_ChopperActionsCallbackInterface != null)
+            {
+                @Exit.started -= m_Wrapper.m_ChopperActionsCallbackInterface.OnExit;
+                @Exit.performed -= m_Wrapper.m_ChopperActionsCallbackInterface.OnExit;
+                @Exit.canceled -= m_Wrapper.m_ChopperActionsCallbackInterface.OnExit;
+                @Movement.started -= m_Wrapper.m_ChopperActionsCallbackInterface.OnMovement;
+                @Movement.performed -= m_Wrapper.m_ChopperActionsCallbackInterface.OnMovement;
+                @Movement.canceled -= m_Wrapper.m_ChopperActionsCallbackInterface.OnMovement;
+                @MoveUp.started -= m_Wrapper.m_ChopperActionsCallbackInterface.OnMoveUp;
+                @MoveUp.performed -= m_Wrapper.m_ChopperActionsCallbackInterface.OnMoveUp;
+                @MoveUp.canceled -= m_Wrapper.m_ChopperActionsCallbackInterface.OnMoveUp;
+                @MoveDown.started -= m_Wrapper.m_ChopperActionsCallbackInterface.OnMoveDown;
+                @MoveDown.performed -= m_Wrapper.m_ChopperActionsCallbackInterface.OnMoveDown;
+                @MoveDown.canceled -= m_Wrapper.m_ChopperActionsCallbackInterface.OnMoveDown;
+                @Look.started -= m_Wrapper.m_ChopperActionsCallbackInterface.OnLook;
+                @Look.performed -= m_Wrapper.m_ChopperActionsCallbackInterface.OnLook;
+                @Look.canceled -= m_Wrapper.m_ChopperActionsCallbackInterface.OnLook;
+            }
+            m_Wrapper.m_ChopperActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Exit.started += instance.OnExit;
+                @Exit.performed += instance.OnExit;
+                @Exit.canceled += instance.OnExit;
+                @Movement.started += instance.OnMovement;
+                @Movement.performed += instance.OnMovement;
+                @Movement.canceled += instance.OnMovement;
+                @MoveUp.started += instance.OnMoveUp;
+                @MoveUp.performed += instance.OnMoveUp;
+                @MoveUp.canceled += instance.OnMoveUp;
+                @MoveDown.started += instance.OnMoveDown;
+                @MoveDown.performed += instance.OnMoveDown;
+                @MoveDown.canceled += instance.OnMoveDown;
+                @Look.started += instance.OnLook;
+                @Look.performed += instance.OnLook;
+                @Look.canceled += instance.OnLook;
+            }
+        }
+    }
+    public ChopperActions @Chopper => new ChopperActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     public InputControlScheme KeyboardMouseScheme
     {
@@ -1345,5 +1586,13 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         void OnRotate(InputAction.CallbackContext context);
         void OnSnapToFloor(InputAction.CallbackContext context);
         void OnSnapWithVolume(InputAction.CallbackContext context);
+    }
+    public interface IChopperActions
+    {
+        void OnExit(InputAction.CallbackContext context);
+        void OnMovement(InputAction.CallbackContext context);
+        void OnMoveUp(InputAction.CallbackContext context);
+        void OnMoveDown(InputAction.CallbackContext context);
+        void OnLook(InputAction.CallbackContext context);
     }
 }

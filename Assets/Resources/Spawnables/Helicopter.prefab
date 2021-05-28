@@ -1,5 +1,65 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4403926458219128222
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6864422299382330265}
+  m_Layer: 0
+  m_Name: ExitPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6864422299382330265
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4403926458219128222}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2, y: 1.03, z: 1.34}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7925212408976908436}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6052653843947750900
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7178586674907070470}
+  m_Layer: 0
+  m_Name: CameraTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7178586674907070470
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6052653843947750900}
+  m_LocalRotation: {x: 0.16805473, y: -0, z: -0, w: 0.9857777}
+  m_LocalPosition: {x: 0, y: 6.344, z: -10.307}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7925212408976908436}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 19.349, y: 0, z: 0}
 --- !u!1 &7925212408976620720
 GameObject:
   m_ObjectHideFlags: 0
@@ -175,11 +235,12 @@ GameObject:
   - component: {fileID: 7925212408977711284}
   - component: {fileID: 7925212408978809460}
   - component: {fileID: 7925212408967122802}
-  - component: {fileID: 7925212408976620727}
   - component: {fileID: 7925212408976620721}
   - component: {fileID: 7925212408976620723}
   - component: {fileID: 1552427778}
   - component: {fileID: 3157760966545366731}
+  - component: {fileID: 5463901803103432208}
+  - component: {fileID: 9113878166937995778}
   m_Layer: 0
   m_Name: Helicopter
   m_TagString: Untagged
@@ -201,6 +262,8 @@ Transform:
   - {fileID: 7925212408976908432}
   - {fileID: 7925212408976908434}
   - {fileID: 7925212408976908438}
+  - {fileID: 6864422299382330265}
+  - {fileID: 7178586674907070470}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -216,6 +279,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cfe7e33e275c6a4fb7a0859578658a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  exitLocation: {fileID: 6864422299382330265}
+  cameraTarget: {fileID: 7178586674907070470}
+  rigidbody: {fileID: 7925212408976620723}
+  animator: {fileID: 7925212408967122802}
+  movementForce: 500000
+  upForce: 50000
+  downForce: 50000
 --- !u!33 &7925212408977711284
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -284,20 +354,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!64 &7925212408976620727
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7925212408976620724}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: ce8f0f92d8b5b4346bb543cd88aac046, type: 3}
 --- !u!114 &7925212408976620721
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -314,11 +370,12 @@ MonoBehaviour:
   Group: 0
   prefixField: -1
   Synchronization: 3
-  OwnershipTransfer: 0
+  OwnershipTransfer: 1
   observableSearch: 2
   ObservedComponents:
+  - {fileID: 934164548623693958}
   - {fileID: 3157760966545366731}
-  sceneViewId: 0
+  sceneViewId: 1
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!54 &7925212408976620723
@@ -335,7 +392,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &1552427778
 MonoBehaviour:
@@ -367,6 +424,32 @@ MonoBehaviour:
   m_SynchronizeAngularVelocity: 0
   m_TeleportEnabled: 1
   m_TeleportIfDistanceGreaterThan: 5
+--- !u!65 &5463901803103432208
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7925212408976620724}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.5475, y: 2.3538253, z: 6.2151484}
+  m_Center: {x: 0, y: 1.1769127, z: -0.12281394}
+--- !u!65 &9113878166937995778
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7925212408976620724}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0738449, y: 0.9065566, z: 4.3400135}
+  m_Center: {x: -0.043684006, y: 2.0575545, z: -5.42498}
 --- !u!1 &7925212408976620726
 GameObject:
   m_ObjectHideFlags: 0

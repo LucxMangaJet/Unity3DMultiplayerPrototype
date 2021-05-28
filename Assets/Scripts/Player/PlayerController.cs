@@ -13,6 +13,11 @@ public class PlayerController : MonoBehaviourPun
     [SerializeField] NormalMovementController normalMovement;
 
     IMovementStrategy movementStrategy;
+    Vector3 cameraLocalPosition;
+
+    public IMovementStrategy MovementStrategy { get => movementStrategy; }
+    public Transform CameraTransform => camera.transform;
+
 
     private void Start()
     {
@@ -21,22 +26,39 @@ public class PlayerController : MonoBehaviourPun
             Destroy(camera.gameObject);
             Destroy(localPlayerObject);
         }
-
+        cameraLocalPosition = camera.localPosition;
         SwitchTo(normalMovement);
     }
 
     public void SwitchTo(IMovementStrategy strategy)
     {
-        if (movementStrategy != null)
-        {
-            movementStrategy.Deactivate();
-        }
-        else
-        {
-            movementStrategy = strategy;
-            strategy.Activate();
-        }
+        movementStrategy?.Deactivate();
+        movementStrategy = strategy;
+        strategy.Activate();
     }
+
+    public void SwitchToNormal()
+    {
+        AttachCamera();
+        SwitchTo(normalMovement);
+    }
+
+    public void MoveTo(Vector3 position)
+    {
+        transform.position = position;
+    }
+
+    public void DetachCamera()
+    {
+        camera.parent = null;
+    }
+
+    public void AttachCamera()
+    {
+        camera.SetParent(transform);
+        camera.localPosition = cameraLocalPosition;
+    }
+
 }
 
 public static class PlayerControllerExt

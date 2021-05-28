@@ -7,6 +7,7 @@ public interface IInteractable
 {
     string GetDescription();
     void Interact(InteractionController controller);
+    bool CanInteract();
 
 }
 
@@ -14,11 +15,14 @@ public class InteractionController : MonoBehaviour
 {
     [SerializeField] Transform camera;
     [SerializeField] float range = 5;
-
-    public event System.Action<IInteractable> TargetChanged;
+    [SerializeField] PlayerController playerController;
 
     IInteractable currentTarget;
     PlayerInput input;
+
+    public event System.Action<IInteractable> TargetChanged;
+
+    public PlayerController MainController { get => playerController; }
 
     private void Start()
     {
@@ -29,9 +33,10 @@ public class InteractionController : MonoBehaviour
 
     private void OnInteract(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        if (currentTarget != null)
+        if (currentTarget != null && !playerController.MovementStrategy.BlocksInteraction() && currentTarget.CanInteract())
         {
             currentTarget.Interact(this);
+            Debug.Log($"Interacted with {currentTarget.GetDescription()}");
         }
     }
 
@@ -53,6 +58,9 @@ public class InteractionController : MonoBehaviour
         {
             if (hit.transform.TryGetComponent(out IInteractable interactable))
             {
+                if (!interactable.CanInteract())
+                    return null;
+
                 return interactable;
             }
         }

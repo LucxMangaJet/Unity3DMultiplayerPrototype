@@ -40,6 +40,8 @@ MonoBehaviour:
   - RespawnSpaceship
   - RPC_Jump
   - RPC_SwitchHeldItem
+  - RPC_Activate
+  - RPC_Deactivate
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

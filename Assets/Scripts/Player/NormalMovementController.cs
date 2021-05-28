@@ -8,6 +8,8 @@ public interface IMovementStrategy
 {
     void Activate();
     void Deactivate();
+
+    bool BlocksInteraction();
 }
 
 public class NormalMovementController : MonoBehaviourPun, IMovementStrategy, IPunObservable
@@ -223,11 +225,30 @@ public class NormalMovementController : MonoBehaviourPun, IMovementStrategy, IPu
 
     public void Activate()
     {
+        photonView.RPC(nameof(RPC_Activate), RpcTarget.All);
+    }
+
+    [PunRPC]
+    private void RPC_Activate()
+    {
         this.enabled = true;
+        model.gameObject.SetActive(true);
     }
 
     public void Deactivate()
     {
+        photonView.RPC(nameof(RPC_Deactivate), RpcTarget.All);
+    }
+
+    [PunRPC]
+    private void RPC_Deactivate()
+    {
         this.enabled = false;
+        model.gameObject.SetActive(false);
+    }
+
+    public bool BlocksInteraction()
+    {
+        return false;
     }
 }
