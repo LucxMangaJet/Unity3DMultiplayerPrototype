@@ -194,6 +194,7 @@ GameObject:
   m_Component:
   - component: {fileID: 653994291211306303}
   - component: {fileID: 653994291211306302}
+  - component: {fileID: 8560357234433755085}
   - component: {fileID: 4295334331751803457}
   - component: {fileID: 653994291211306297}
   - component: {fileID: 653994291211306300}
@@ -236,11 +237,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 653994290544220487}
+  localPlayerObject: {fileID: 8416376345291745329}
+  normalMovement: {fileID: 8560357234433755085}
+--- !u!114 &8560357234433755085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 653994291211306296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57e9fd0e8bce05a4991bd6e58cfa33cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camera: {fileID: 653994290544220487}
   model: {fileID: 1052097570611260582}
   rigidbody: {fileID: 653994291211306300}
   animator: {fileID: 419430177062630941}
   headJoint: {fileID: 6410135050080288293}
-  localPlayerObject: {fileID: 8416376345291745329}
   rigEffector: {fileID: 9000065368918640190}
   lookYMinMax: {x: -70, y: 70}
   lookSensitivity: 25
@@ -314,7 +329,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 653994291211306302}
+  - {fileID: 8560357234433755085}
   - {fileID: 5110923959733465718}
   - {fileID: 4015664593928752021}
   - {fileID: 9000065368918640190}
@@ -393,6 +408,7 @@ GameObject:
   - component: {fileID: 7994959100779663078}
   - component: {fileID: 7352959544075360516}
   - component: {fileID: 2897758812818954681}
+  - component: {fileID: 5134115288942561924}
   m_Layer: 0
   m_Name: LocalPlayer
   m_TagString: Untagged
@@ -428,6 +444,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerHUDPrefab: {fileID: 7357065644438464418, guid: 0653f8a406f5e9c4ca09064c114cabfc, type: 3}
   toolbar: {fileID: 2897758812818954681}
+  interactionController: {fileID: 5134115288942561924}
 --- !u!114 &7352959544075360516
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -463,6 +480,20 @@ MonoBehaviour:
     Amount: 1
   - Info: {fileID: 11400000, guid: 95311f4c04906624188642f5f599a020, type: 2}
     Amount: 1
+--- !u!114 &5134115288942561924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8416376345291745329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f804e9331e8f6c45b814e8ec80a2b34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camera: {fileID: 653994290544220487}
+  range: 5
 --- !u!1001 &4429987123626709645
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -520,11 +551,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e1a014f0cc0a91b4fb387d88a0a7479a, type: 3}
---- !u!4 &6410135050080288293 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7318109755720068264, guid: e1a014f0cc0a91b4fb387d88a0a7479a, type: 3}
-  m_PrefabInstance: {fileID: 4429987123626709645}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1199884522691458181 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3304693578228327944, guid: e1a014f0cc0a91b4fb387d88a0a7479a, type: 3}
@@ -553,6 +579,11 @@ GameObject:
 --- !u!1 &438666430209348935 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4281811751392462794, guid: e1a014f0cc0a91b4fb387d88a0a7479a, type: 3}
+  m_PrefabInstance: {fileID: 4429987123626709645}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6410135050080288293 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7318109755720068264, guid: e1a014f0cc0a91b4fb387d88a0a7479a, type: 3}
   m_PrefabInstance: {fileID: 4429987123626709645}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &4812553487929543730 stripped

@@ -7,18 +7,37 @@ using UnityEngine.InputSystem;
 public class PlayerHUD : MonoBehaviour
 {
     [SerializeField] ToolbarVisualizer toolbarVisualizer;
-
     [SerializeField] float scrollPauseTime;
+    [SerializeField] TMPro.TextMeshProUGUI interactText;
 
     private PlayerInput input;
 
     float lastScrollTimestamp;
     Toolbar toolbar;
+    InteractionController interactionController;
 
-    public void Initialize(Toolbar toolbar)
+    public void Initialize(Toolbar toolbar, InteractionController interactionController)
     {
         this.toolbar = toolbar;
+        this.interactionController = interactionController;
+
         toolbarVisualizer.SetToolbar(toolbar);
+        interactionController.TargetChanged += OnInteractionTargetChanged;
+
+        interactText.enabled = false;
+    }
+
+    private void OnInteractionTargetChanged(IInteractable obj)
+    {
+        if (obj == null)
+        {
+            interactText.enabled = false;
+        }
+        else
+        {
+            interactText.enabled = true;
+            interactText.text = "Press E - " + obj.GetDescription();
+        }
     }
 
     private void Start()

@@ -6,15 +6,16 @@ public class LocalPlayerInitializer : MonoBehaviour
 {
     [SerializeField] GameObject playerHUDPrefab;
     [SerializeField] Toolbar toolbar;
+    [SerializeField] InteractionController interactionController;
 
     void Start()
     {
         Debug.Log("Initializing Local Player");
 
         var hudObject = Instantiate(playerHUDPrefab);
-        if(hudObject.TryGetComponent(out PlayerHUD hud))
+        if (hudObject.TryGetComponent(out PlayerHUD hud))
         {
-            hud.Initialize(toolbar);
+            hud.Initialize(toolbar, interactionController);
         }
     }
 }
