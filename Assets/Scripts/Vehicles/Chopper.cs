@@ -31,7 +31,8 @@ public class Chopper : MonoBehaviourPun, IInteractable, IMovementStrategy, IPunO
 
     public void Activate()
     {
-        RPC_Activate();
+        photonView.RPC(nameof(RPC_Activate), RpcTarget.All);
+
         localActive = true;
         camera = playerController.CameraTransform;
 
@@ -97,7 +98,8 @@ public class Chopper : MonoBehaviourPun, IInteractable, IMovementStrategy, IPunO
 
     public void Deactivate()
     {
-        RPC_Deactivate();
+        photonView.RPC(nameof(RPC_Deactivate), RpcTarget.All);
+
         input.Disable();
         input.Dispose();
         input = null;
