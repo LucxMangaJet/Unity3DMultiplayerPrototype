@@ -10,6 +10,8 @@ public interface IMovementStrategy
     void Deactivate();
 
     bool BlocksInteraction();
+
+    string MovementName { get; }
 }
 
 public class NormalMovementController : MonoBehaviourPun, IMovementStrategy, IPunObservable
@@ -24,12 +26,12 @@ public class NormalMovementController : MonoBehaviourPun, IMovementStrategy, IPu
     [SerializeField] Transform headJoint;
     [SerializeField] RigEffector rigEffector;
 
-    private IMovementStrategy currentStrategy;
+    [SerializeField] DefaultLookBehaviour lookBehaviour;
 
     [Header("Settings")]
-    [SerializeField] Vector2 lookYMinMax;
-    [SerializeField] float lookSensitivity;
-    [SerializeField] float walkSpeed, sprintSpeed;
+
+    [SerializeField] float walkSpeed;
+    [SerializeField] float sprintSpeed;
     [SerializeField] float acceleration;
     [SerializeField] float slowdownPower;
     [SerializeField] float angleToRotate;
@@ -37,7 +39,6 @@ public class NormalMovementController : MonoBehaviourPun, IMovementStrategy, IPu
     [SerializeField] float jumpCooldown;
     [SerializeField] float jumpVelocity;
 
-    Vector3 lookRotation;
     PlayerInput input;
     float lastJumpTimestamp;
 
@@ -46,9 +47,11 @@ public class NormalMovementController : MonoBehaviourPun, IMovementStrategy, IPu
     bool sprint;
     float lastGroundedTimestamp;
 
+    public string MovementName => "Walk";
+
     private void Awake()
     {
-        //Auto disable to let playerController
+        //Auto disable to let playerController choose
         enabled = false;
     }
 
@@ -59,8 +62,6 @@ public class NormalMovementController : MonoBehaviourPun, IMovementStrategy, IPu
         if (!photonView.IsMine) return;
 
         input = new PlayerInput();
-        input.Player.Look.performed += OnLook;
-
         input.Enable();
 
         Cursor.lockState = CursorLockMode.Locked;
@@ -85,18 +86,7 @@ public class NormalMovementController : MonoBehaviourPun, IMovementStrategy, IPu
         animator.SetFloat(ANIM_SpeedY, Mathf.Clamp(speedY, -clampVal, clampVal));
     }
 
-    private void LateUpdate()
-    {
-        if (photonView.IsMine)
-        {
-            camera.eulerAngles = lookRotation;
 
-            Vector3 localPos = new Vector3(0, 0, 0.2f);
-            localPos = Quaternion.Euler(0, lookRotation.y, 0) * localPos;
-            localPos.y = camera.localPosition.y;
-            camera.localPosition = localPos;
-        }
-    }
 
     private void LocalFixedUpdate()
     {
@@ -166,17 +156,6 @@ public class NormalMovementController : MonoBehaviourPun, IMovementStrategy, IPu
         }
     }
 
-    private void OnLook(InputAction.CallbackContext obj)
-    {
-        Vector2 input = obj.ReadValue<Vector2>();
-
-        lookRotation.y += input.x * Time.deltaTime * lookSensitivity;
-        lookRotation.x += -input.y * Time.deltaTime * lookSensitivity;
-
-        lookRotation.x = Mathf.Clamp(lookRotation.x, lookYMinMax.x, lookYMinMax.y);
-
-    }
-
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
@@ -226,6 +205,7 @@ public class NormalMovementController : MonoBehaviourPun, IMovementStrategy, IPu
     public void Activate()
     {
         photonView.RPC(nameof(RPC_Activate), RpcTarget.All);
+        lookBehaviour.Activate();
     }
 
     [PunRPC]
@@ -238,6 +218,7 @@ public class NormalMovementController : MonoBehaviourPun, IMovementStrategy, IPu
     public void Deactivate()
     {
         photonView.RPC(nameof(RPC_Deactivate), RpcTarget.All);
+        lookBehaviour.Deactivate();
     }
 
     [PunRPC]

@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviourPun
     [SerializeField] Transform camera;
     [SerializeField] GameObject localPlayerObject;
     [SerializeField] NormalMovementController normalMovement;
+    [SerializeField] SwimmingMovementController swimmingMovement;
 
     IMovementStrategy movementStrategy;
     Vector3 cameraLocalPosition;
@@ -32,9 +33,19 @@ public class PlayerController : MonoBehaviourPun
 
     public void SwitchTo(IMovementStrategy strategy)
     {
+        if (movementStrategy == strategy) return;
+
+        Debug.Log($"Switching to {strategy.MovementName}");
+
         movementStrategy?.Deactivate();
         movementStrategy = strategy;
         strategy.Activate();
+    }
+
+    public void SwitchToSwim()
+    {
+        AttachCamera();
+        SwitchTo(swimmingMovement);
     }
 
     public void SwitchToNormal()
@@ -57,6 +68,11 @@ public class PlayerController : MonoBehaviourPun
     {
         camera.SetParent(transform);
         camera.localPosition = cameraLocalPosition;
+    }
+
+    public bool IsLocalPlayer()
+    {
+        return photonView.IsMine;
     }
 
 }

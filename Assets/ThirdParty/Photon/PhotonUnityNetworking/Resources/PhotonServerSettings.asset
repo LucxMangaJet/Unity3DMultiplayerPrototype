@@ -42,6 +42,8 @@ MonoBehaviour:
   - RPC_SwitchHeldItem
   - RPC_Activate
   - RPC_Deactivate
+  - RPC_SwimActivate
+  - RPC_SwimDeactivate
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

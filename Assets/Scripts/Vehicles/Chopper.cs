@@ -36,6 +36,8 @@ public class Chopper : MonoBehaviourPun, IInteractable, IMovementStrategy, IPunO
     //replicated
     float rotatorSpeed;
 
+    public string MovementName => "Chopper";
+
     private void Awake()
     {
         cameraOffset = cameraTarget.localPosition;
