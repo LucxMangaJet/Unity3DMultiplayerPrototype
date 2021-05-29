@@ -69,6 +69,12 @@ public static class PlayerControllerExt
         return v3;
     }
 
+    public static Vector3 WithY0Norm(this Vector3 v3)
+    {
+        v3.y = 0;
+        return v3.normalized;
+    }
+
     public static Vector3 OffsetBy(this Vector3 v3, float x, float y, float z)
     {
         v3 += new Vector3(x, y, z);

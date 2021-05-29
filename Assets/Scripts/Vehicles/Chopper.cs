@@ -13,21 +13,33 @@ public class Chopper : MonoBehaviourPun, IInteractable, IMovementStrategy, IPunO
     [SerializeField] Rigidbody rigidbody;
     [SerializeField] Animator animator;
 
-    [SerializeField] float movementForce;
-    [SerializeField] float upForce;
-    [SerializeField] float downForce;
+    [SerializeField] float movementVelocity;
+    [SerializeField] float upVelocity;
+    [SerializeField] float pitchFactor;
+    [SerializeField] float rollFactor;
+    [SerializeField] float chopperRotationLerpFactor;
+    [SerializeField] float rotatorMaxSpeed;
+    [SerializeField] float rotatorMinSpeed;
+    [SerializeField] float rotatorAcceleration;
 
     PlayerInput input;
     PlayerController playerController;
     Transform camera;
 
     bool localActive;
+    Vector3 cameraOffset;
+    Vector3 currentRotation;
 
     //rpc replicated
     bool used;
 
     //replicated
     float rotatorSpeed;
+
+    private void Awake()
+    {
+        cameraOffset = cameraTarget.localPosition;
+    }
 
     public void Activate()
     {
@@ -60,16 +72,22 @@ public class Chopper : MonoBehaviourPun, IInteractable, IMovementStrategy, IPunO
 
     private void LateUpdate()
     {
-        if (!localActive) return;
+        if (photonView.IsMine)
+        {
+            float delta = (localActive ? rotatorAcceleration : -rotatorAcceleration) * Time.deltaTime;
 
+            rotatorSpeed = Mathf.Clamp(rotatorSpeed + delta, rotatorMinSpeed, rotatorMaxSpeed);
+        }
 
-        camera.position = cameraTarget.position;
-        camera.forward = cameraTarget.forward;
+        if (localActive)
+        {
+            camera.position = transform.position + (Quaternion.Euler(0, currentRotation.y, 0) * cameraOffset);
+            camera.forward = transform.position - camera.position;
 
-        rotatorSpeed = Mathf.Max(0, 0.1f + rigidbody.velocity.y * 0.01f);
+            LocalLateUpdate();
+        }
+
         animator.SetFloat(ANIM_RotatorSpeed, rotatorSpeed);
-
-        LocalLateUpdate();
     }
 
     private void LocalLateUpdate()
@@ -77,11 +95,23 @@ public class Chopper : MonoBehaviourPun, IInteractable, IMovementStrategy, IPunO
         Vector2 i_mov = input.Chopper.Movement.ReadValue<Vector2>();
         float i_up = input.Chopper.MoveUp.ReadValue<float>();
         float i_down = input.Chopper.MoveDown.ReadValue<float>();
+        float i_lookX = input.Chopper.Look.ReadValue<Vector2>().x;
 
-        Vector3 movement = new Vector3(i_mov.x, 0, i_mov.y) * Time.deltaTime * movementForce;
-        rigidbody.AddForce(movement, ForceMode.Impulse);
-        rigidbody.AddForce(Vector3.up * i_up * Time.deltaTime * upForce, ForceMode.Impulse);
-        rigidbody.AddForce(Vector3.down * i_down * Time.deltaTime * downForce, ForceMode.Impulse);
+        Vector3 movement = (i_mov.x * transform.right.WithY0Norm() + i_mov.y *
+                            transform.forward.WithY0Norm()) * movementVelocity;
+
+        rigidbody.velocity = new Vector3(movement.x, (i_up + i_down * -1) * upVelocity, movement.z);
+
+        Vector3 rotation = new Vector3();
+        rotation.x = Vector3.Dot(rigidbody.velocity, transform.forward.WithY0().normalized) * pitchFactor;
+        rotation.y = currentRotation.y;
+        rotation.z = Vector3.Dot(rigidbody.velocity, transform.right.WithY0().normalized) * -rollFactor;
+
+        currentRotation = Vector3.Lerp(currentRotation, rotation, chopperRotationLerpFactor * Time.deltaTime);
+        currentRotation.y += i_lookX;
+
+
+        transform.rotation = Quaternion.Euler(currentRotation);
     }
 
 

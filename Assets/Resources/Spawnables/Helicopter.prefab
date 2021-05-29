@@ -283,9 +283,14 @@ MonoBehaviour:
   cameraTarget: {fileID: 7178586674907070470}
   rigidbody: {fileID: 7925212408976620723}
   animator: {fileID: 7925212408967122802}
-  movementForce: 500000
-  upForce: 50000
-  downForce: 50000
+  movementVelocity: 20
+  upVelocity: 10
+  pitchFactor: 1
+  rollFactor: 1
+  chopperRotationLerpFactor: 2
+  rotatorMaxSpeed: 1
+  rotatorMinSpeed: 0
+  rotatorAcceleration: 0.2
 --- !u!33 &7925212408977711284
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -392,7 +397,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!114 &1552427778
 MonoBehaviour:
@@ -407,7 +412,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigidbody: {fileID: 7925212408976620723}
-  offset: {x: 0, y: 1.34, z: 0.08}
+  offset: {x: 0, y: 1.34, z: 0}
 --- !u!114 &3157760966545366731
 MonoBehaviour:
   m_ObjectHideFlags: 0
