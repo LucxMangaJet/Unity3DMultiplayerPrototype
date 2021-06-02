@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 
 public class HammerBehaviour : MonoBehaviour, IUsable
 {
-
     [SerializeField] float maxBuildDistance;
     [SerializeField] float rotationSpeed;
     [SerializeField] GameObject catalog;

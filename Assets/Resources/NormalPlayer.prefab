@@ -49,6 +49,9 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 2
     Name: Point
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsSwimming
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
@@ -539,6 +542,8 @@ MonoBehaviour:
   - Info: {fileID: 11400000, guid: f9a5e63b4bf4acb4bb17838db7c74ca2, type: 2}
     Amount: 1
   - Info: {fileID: 11400000, guid: 95311f4c04906624188642f5f599a020, type: 2}
+    Amount: 1
+  - Info: {fileID: 11400000, guid: b875ae9a8885ac34a8cdcdff571e25fe, type: 2}
     Amount: 1
 --- !u!114 &5134115288942561924
 MonoBehaviour:

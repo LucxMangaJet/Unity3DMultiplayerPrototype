@@ -94,6 +94,16 @@ public class PlayerController : MonoBehaviourPun
     {
         rigidbody.isKinematic = false;
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!photonView.IsMine) return;
+
+        if (other.TryGetComponent(out IDamager dmg))
+        {
+            SwitchToRagdoll();
+        }
+    }
 }
 
 public static class PlayerControllerExt
