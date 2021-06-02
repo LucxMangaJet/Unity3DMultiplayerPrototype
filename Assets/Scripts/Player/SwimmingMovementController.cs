@@ -40,9 +40,6 @@ public class SwimmingMovementController : MonoBehaviourPun, IMovementStrategy, I
 
         input = new PlayerInput();
         input.Enable();
-
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
     }
     private void FixedUpdate()
     {

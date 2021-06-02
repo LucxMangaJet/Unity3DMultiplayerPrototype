@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviourPun
     [SerializeField] GameObject localPlayerObject;
     [SerializeField] NormalMovementController normalMovement;
     [SerializeField] SwimmingMovementController swimmingMovement;
+    [SerializeField] RagdollMovementController ragdollMovement;
+    [SerializeField] Rigidbody rigidbody;
 
     IMovementStrategy movementStrategy;
     Vector3 cameraLocalPosition;
@@ -54,6 +56,13 @@ public class PlayerController : MonoBehaviourPun
         SwitchTo(normalMovement);
     }
 
+    [NaughtyAttributes.Button]
+    public void SwitchToRagdoll()
+    {
+        AttachCamera();
+        SwitchTo(ragdollMovement);
+    }
+
     public void MoveTo(Vector3 position)
     {
         transform.position = position;
@@ -75,6 +84,16 @@ public class PlayerController : MonoBehaviourPun
         return photonView.IsMine;
     }
 
+    public void DisableRigidbody()
+    {
+        rigidbody.isKinematic = true;
+        rigidbody.velocity = Vector3.zero;
+    }
+
+    public void EnableRigidbody()
+    {
+        rigidbody.isKinematic = false;
+    }
 }
 
 public static class PlayerControllerExt

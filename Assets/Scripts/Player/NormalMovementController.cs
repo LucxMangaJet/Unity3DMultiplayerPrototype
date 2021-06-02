@@ -205,6 +205,7 @@ public class NormalMovementController : MonoBehaviourPun, IMovementStrategy, IPu
     public void Activate()
     {
         photonView.RPC(nameof(RPC_Activate), RpcTarget.All);
+        lookBehaviour.SetCameraMode(DefaultLookBehaviour.CameraMode.Normal);
         lookBehaviour.Activate();
     }
 

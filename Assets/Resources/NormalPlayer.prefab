@@ -196,6 +196,7 @@ GameObject:
   - component: {fileID: 653994291211306302}
   - component: {fileID: 8560357234433755085}
   - component: {fileID: 7641114468641479796}
+  - component: {fileID: 736163570045450542}
   - component: {fileID: 3568616028847855758}
   - component: {fileID: 4295334331751803457}
   - component: {fileID: 653994291211306297}
@@ -242,6 +243,8 @@ MonoBehaviour:
   localPlayerObject: {fileID: 8416376345291745329}
   normalMovement: {fileID: 8560357234433755085}
   swimmingMovement: {fileID: 7641114468641479796}
+  ragdollMovement: {fileID: 736163570045450542}
+  rigidbody: {fileID: 653994291211306300}
 --- !u!114 &8560357234433755085
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -289,6 +292,24 @@ MonoBehaviour:
   acceleration: 30
   slowdownPower: 0.9
   swimSpeed: 4
+--- !u!114 &736163570045450542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 653994291211306296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 297b2b6b890896946b1016b67a70a889, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerController: {fileID: 653994291211306302}
+  camera: {fileID: 653994290544220487}
+  model: {fileID: 1052097570611260582}
+  rigRoot: {fileID: 4812553487929543730}
+  ragdollPrefab: {fileID: 6890784310111567743, guid: 0e4b4826c2054bd4983f1ca621712b9a, type: 3}
+  tempDuration: 3
 --- !u!114 &3568616028847855758
 MonoBehaviour:
   m_ObjectHideFlags: 0
