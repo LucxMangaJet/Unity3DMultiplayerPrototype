@@ -7,6 +7,8 @@ using Photon.Realtime;
 
 public class ConnectionModel : MonoBehaviourPunCallbacks
 {
+    [SerializeField] AppSettings appSettings;
+
     List<RoomInfo> availableRooms;
 
     public event System.Action<string> ConnectionError;
@@ -29,7 +31,7 @@ public class ConnectionModel : MonoBehaviourPunCallbacks
     public void ConnectToServer()
     {
         PhotonNetwork.SendRate = 50;
-        PhotonNetwork.ConnectUsingSettings();
+        PhotonNetwork.ConnectUsingSettings(appSettings, false);
     }
 
     public void CreateRandom(string name, RoomOptions options = null)

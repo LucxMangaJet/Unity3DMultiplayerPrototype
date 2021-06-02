@@ -6205,6 +6205,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59478a755b6938e4b9ae124d93d5e2c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  appSettings:
+    AppIdRealtime: 49553a90-e2fa-4e16-9639-7c3658ba0dbd
+    AppIdChat: 
+    AppIdVoice: 
+    AppVersion: 
+    UseNameServer: 1
+    FixedRegion: 
+    Server: 
+    Port: 0
+    ProxyServer: 
+    Protocol: 0
+    EnableProtocolFallback: 1
+    AuthMode: 0
+    EnableLobbyStatistics: 0
+    NetworkLogging: 1
 --- !u!114 &3348754411656687102
 MonoBehaviour:
   m_ObjectHideFlags: 0
