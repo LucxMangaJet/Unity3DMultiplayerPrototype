@@ -16,6 +16,16 @@ public class ClubItemBehaviour : MonoBehaviour, IUsable
     public void BeginPrimary()
     {
         actionHandler.Animator.SetBool(ANIM_WeaponSwing, true);
+        actionHandler.MetaStates.SetAttacking(true);
+
+        StopAllCoroutines();
+        StartCoroutine(AttackRoutine());
+    }
+
+    private IEnumerator AttackRoutine()
+    {
+        yield return new WaitForSeconds(2f);
+        actionHandler.MetaStates.SetAttacking(false);
     }
 
     public void EndPrimary(bool cancelled)

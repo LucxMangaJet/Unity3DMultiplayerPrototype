@@ -101,7 +101,8 @@ public class PlayerController : MonoBehaviourPun
 
         if (other.TryGetComponent(out IDamager dmg))
         {
-            SwitchToRagdoll();
+            if (dmg.GetMetaStates().Attacking)
+                SwitchToRagdoll();
         }
     }
 }

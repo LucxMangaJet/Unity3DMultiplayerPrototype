@@ -21,6 +21,7 @@ public class PlayerActionHandler : MonoBehaviour
     [SerializeField] RigEffector rigEffector;
     [SerializeField] Animator animator;
     [SerializeField] Camera camera;
+    [SerializeField] PlayerMetaStates metaStates;
 
     private PlayerInput input;
 
@@ -33,6 +34,8 @@ public class PlayerActionHandler : MonoBehaviour
     public Transform CameraTransform { get => camera.transform; }
 
     public PlayerInput Input { get => input; }
+
+    public PlayerMetaStates MetaStates { get => metaStates; }
 
     private void Start()
     {

@@ -205,6 +205,7 @@ GameObject:
   - component: {fileID: 736163570045450542}
   - component: {fileID: 3568616028847855758}
   - component: {fileID: 4295334331751803457}
+  - component: {fileID: 1206993810600970190}
   - component: {fileID: 653994291211306297}
   - component: {fileID: 653994291211306300}
   - component: {fileID: 8051648978453348117}
@@ -346,6 +347,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   holdItemSocket: {fileID: 8854284998839996672}
+--- !u!114 &1206993810600970190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 653994291211306296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a62f7df3e723e2c4fa0cf5535d8d75a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!136 &653994291211306297
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -397,6 +410,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 8560357234433755085}
   - {fileID: 7641114468641479796}
+  - {fileID: 1206993810600970190}
   - {fileID: 5110923959733465718}
   - {fileID: 4015664593928752021}
   - {fileID: 9000065368918640190}
@@ -528,6 +542,7 @@ MonoBehaviour:
   rigEffector: {fileID: 9000065368918640190}
   animator: {fileID: 419430177062630941}
   camera: {fileID: 653994290544220346}
+  metaStates: {fileID: 1206993810600970190}
 --- !u!114 &2897758812818954681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -641,6 +656,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4082623388256216209, guid: e1a014f0cc0a91b4fb387d88a0a7479a, type: 3}
   m_PrefabInstance: {fileID: 4429987123626709645}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &438666430209348935 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4281811751392462794, guid: e1a014f0cc0a91b4fb387d88a0a7479a, type: 3}
+  m_PrefabInstance: {fileID: 4429987123626709645}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4812553487929543730 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9201951589320400575, guid: e1a014f0cc0a91b4fb387d88a0a7479a, type: 3}
@@ -654,10 +674,5 @@ SkinnedMeshRenderer:
 --- !u!4 &6410135050080288293 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7318109755720068264, guid: e1a014f0cc0a91b4fb387d88a0a7479a, type: 3}
-  m_PrefabInstance: {fileID: 4429987123626709645}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &438666430209348935 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4281811751392462794, guid: e1a014f0cc0a91b4fb387d88a0a7479a, type: 3}
   m_PrefabInstance: {fileID: 4429987123626709645}
   m_PrefabAsset: {fileID: 0}
