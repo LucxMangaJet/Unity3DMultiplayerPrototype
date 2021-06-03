@@ -1,10 +1,14 @@
 using Photon.Pun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class RagdollMovementController : MonoBehaviourPun, IMovementStrategy
 {
+    private static int ANIM_StandUp = Animator.StringToHash("StandUp");
+
+    [SerializeField] Animator animator;
     [SerializeField] PlayerController playerController;
     [SerializeField] Transform camera;
     [SerializeField] Transform model, rigRoot;
@@ -12,7 +16,6 @@ public class RagdollMovementController : MonoBehaviourPun, IMovementStrategy
 
     [SerializeField] float tempDuration;
 
-    private float startStamp;
     RagdollEffector ragdollInstance;
     public string MovementName => "Ragdoll";
 
@@ -22,32 +25,49 @@ public class RagdollMovementController : MonoBehaviourPun, IMovementStrategy
         this.enabled = false;
     }
 
-
-    private void FixedUpdate()
+    private IEnumerator RagdollRoutine()
     {
-        if (!photonView.IsMine) return;
+        model.gameObject.SetActive(false);
+        ragdollInstance = Instantiate(ragdollPrefab, transform.position, transform.rotation);
+        ragdollInstance.MatchRig(rigRoot);
 
-        if (Time.time - startStamp > tempDuration)
+        yield return new WaitForSeconds(tempDuration);
+
+        model.gameObject.SetActive(true);
+        Debug.Log("A");
+        animator.SetBool(ANIM_StandUp, true);
+
+        if (this.enabled && photonView.IsMine)
+        {
+            playerController.transform.position = ragdollInstance.Root.position;
+        }
+
+        Destroy(ragdollInstance.gameObject);
+
+        yield return new WaitForSeconds(1f);
+
+        animator.SetBool(ANIM_StandUp, false);
+        if (this.enabled && photonView.IsMine)
         {
             playerController.SwitchToNormal();
         }
-    }   
+    }
 
     private void LateUpdate()
     {
-        if (photonView.IsMine)
+        if (photonView.IsMine && ragdollInstance != null)
         {
             var head = ragdollInstance.GetHeadJoint();
             camera.position = head.position;
             camera.forward = head.forward;
         }
+        //attachCam to head for standup animation
     }
 
     public void Activate()
     {
         photonView.RPC(nameof(RPC_RagdollActivate), RpcTarget.All);
         playerController.DetachCamera();
-        startStamp = Time.time;
         playerController.DisableRigidbody();
     }
 
@@ -55,9 +75,8 @@ public class RagdollMovementController : MonoBehaviourPun, IMovementStrategy
     private void RPC_RagdollActivate()
     {
         this.enabled = true;
-        model.gameObject.SetActive(false);
-        ragdollInstance = Instantiate(ragdollPrefab, transform.position, transform.rotation);
-        ragdollInstance.MatchRig(rigRoot);
+
+        StartCoroutine(RagdollRoutine());
     }
 
     public void Deactivate()
@@ -71,8 +90,9 @@ public class RagdollMovementController : MonoBehaviourPun, IMovementStrategy
     private void RPC_RagdollDeactivate()
     {
         this.enabled = false;
-        model.gameObject.SetActive(false);
-        Destroy(ragdollInstance.gameObject);
+        if (ragdollInstance != null)
+            Destroy(ragdollInstance.gameObject);
+        model.gameObject.SetActive(true);
     }
 
     public bool BlocksInteraction()

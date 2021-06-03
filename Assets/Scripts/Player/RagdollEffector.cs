@@ -18,6 +18,8 @@ public class RagdollEffector : MonoBehaviour
 
     Rigidbody[] rigidbodies;
 
+    public Transform Root => rootBone;
+
     private void Start()
     {
         rigidbodies = GetComponentsInChildren<Rigidbody>();
