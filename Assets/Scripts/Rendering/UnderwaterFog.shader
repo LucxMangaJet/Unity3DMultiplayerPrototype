@@ -75,39 +75,39 @@ Shader "Hidden/UnderwaterFog"
 				if (ldotn == 0)
 					return source;
 
-				float d = dot(p0 - l0, n) / ldotn;
-				float waterD = 0;
+				float waterDistance = dot(p0 - l0, n) / ldotn;
+				float waterDepth = 0;
 
 				if (aboveWater)
 				{
-					if (d < 0 || depth < d)
+					if (waterDistance < 0 || depth < waterDistance)
 						return source;
-					waterD = max(0, depth - d);
+					waterDepth = max(0, depth - waterDistance);
 				}
 				else
 				{
 					//looking down
-					if (d < 0)
+					if (waterDistance < 0)
 					{
-						waterD = depth;
+						waterDepth = depth;
 					}
 					//looking up
 					else
 					{
 						//object in front of water surface when looking up
-						if (depth < d)
+						if (depth < waterDistance)
 						{
-							waterD = depth;
+							waterDepth = depth;
 						}
 						//water border in front of overworld object
 						else
 						{
-							waterD = d;
+							waterDepth = waterDistance;
 						}
 					}
 				}
 
-				float ad = (waterD + _offset);
+				float ad = (waterDepth + _offset);
 
 				return lerp(source, _fogColor, saturate(sqrt(ad) * _intensity));
 			}
