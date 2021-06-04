@@ -25,7 +25,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _disabled: 1
-    - _intesity: 20
+    - _intensity: 0.25
+    - _intesity: 10
+    - _offset: 0
+    - _waterY: -1
     m_Colors:
     - _fogColor: {r: 0.08254717, g: 0.18022576, b: 0.3301887, a: 1}
   m_BuildTextureStacks: []
