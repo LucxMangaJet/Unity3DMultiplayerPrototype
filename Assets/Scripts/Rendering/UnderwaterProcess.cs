@@ -16,6 +16,7 @@ public class UnderwaterProcess : ScriptableRendererFeature
         pass.Material = material;
     }
 
+
     public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
     {
         renderer.EnqueuePass(pass);

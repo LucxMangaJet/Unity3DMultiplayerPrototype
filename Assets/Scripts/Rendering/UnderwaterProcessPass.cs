@@ -12,6 +12,13 @@ public class UnderwaterProcessPass : ScriptableRenderPass
     // Name of the grab texture used in the shaders.
     private static readonly int grabTexturePropertyId = Shader.PropertyToID("_CameraColorTexture");
 
+
+    public UnderwaterProcessPass()
+    {
+        renderPassEvent = RenderPassEvent.BeforeRenderingPostProcessing;
+    }
+
+
     public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
     {
         if (!Material)

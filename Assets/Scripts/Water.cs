@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Water : MonoBehaviour
 {
-
-
+    public event System.Action EnteredWater;
+    public event System.Action LeftWater;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -27,9 +27,15 @@ public class Water : MonoBehaviour
                 bool underWater = Vector3.Dot(Vector3.up, (player.transform.position - transform.position)) < 0;
 
                 if (underWater)
+                {
                     SwitchPlayerToSwim(player);
+                    EnteredWater?.Invoke();
+                }
                 else
+                {
                     SwitchPlayerToNormal(player);
+                    LeftWater?.Invoke();
+                }
 
             }
         }

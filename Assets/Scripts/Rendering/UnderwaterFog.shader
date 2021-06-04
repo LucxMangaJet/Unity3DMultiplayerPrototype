@@ -2,10 +2,12 @@ Shader "Hidden/UnderwaterFog"
 {
 	Properties
 	{
-
+		_intesity("Intensity", Float) = 1.0
+		_fogColor("Fog Color", Color) = (0, 0.1, 0.1, 1)
+		_disabled("Disabled", Int) = 1
 	}
 
-	SubShader
+		SubShader
 	{
 		// No culling or depth
 		Cull Off ZWrite Off ZTest Always
@@ -40,15 +42,16 @@ Shader "Hidden/UnderwaterFog"
 
 			sampler2D _CameraColorTexture;
 			sampler2D _CameraDepthTexture;
+			float _intesity;
+			float _disabled;
+			fixed4 _fogColor;
 
 			fixed4 frag(v2f i) : SV_Target
 			{
 				float depth = tex2D(_CameraDepthTexture, i.uv).r;
-				depth = Linear01Depth(depth);
 				fixed4 source = tex2D(_CameraColorTexture, i.uv);
-				fixed4 green = fixed4(0, 0.1, 0.1, 1);
 
-				return fixed4(depth, depth, depth, 1);
+				return lerp(_fogColor, source, saturate((depth * _intesity) + _disabled));
 			}
 			ENDCG
 		}
