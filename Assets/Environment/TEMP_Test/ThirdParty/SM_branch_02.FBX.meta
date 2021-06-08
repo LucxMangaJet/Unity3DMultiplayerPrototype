@@ -3,7 +3,12 @@ guid: 0080eb2811318bc44802fb8523941a63
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MI_branch_stump_Inst
+    second: {fileID: 2100000, guid: 65080529fd31b7d4ebf479f22d0e3ff7, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
